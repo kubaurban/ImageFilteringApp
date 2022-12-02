@@ -2,6 +2,7 @@
 {
     public enum FilterMethod
     {
+        None,
         Negative,
         Brightness,
         GammaCorrection,

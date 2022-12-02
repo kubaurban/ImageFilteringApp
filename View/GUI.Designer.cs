@@ -43,6 +43,7 @@
             this.NegativeButton = new System.Windows.Forms.RadioButton();
             this.LoadImageButton = new System.Windows.Forms.Button();
             this.BrushShapeLabel = new System.Windows.Forms.Label();
+            this.NoneButton = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
             this.BrushShapesBox.SuspendLayout();
@@ -136,6 +137,7 @@
             // 
             // FiltersBox
             // 
+            this.FiltersBox.Controls.Add(this.NoneButton);
             this.FiltersBox.Controls.Add(this.BrezierButton);
             this.FiltersBox.Controls.Add(this.ContrastButton);
             this.FiltersBox.Controls.Add(this.GammaButton);
@@ -154,7 +156,7 @@
             // BrezierButton
             // 
             this.BrezierButton.AutoSize = true;
-            this.BrezierButton.Location = new System.Drawing.Point(7, 167);
+            this.BrezierButton.Location = new System.Drawing.Point(6, 172);
             this.BrezierButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.BrezierButton.Name = "BrezierButton";
             this.BrezierButton.Size = new System.Drawing.Size(115, 24);
@@ -167,7 +169,7 @@
             // ContrastButton
             // 
             this.ContrastButton.AutoSize = true;
-            this.ContrastButton.Location = new System.Drawing.Point(7, 133);
+            this.ContrastButton.Location = new System.Drawing.Point(6, 135);
             this.ContrastButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ContrastButton.Name = "ContrastButton";
             this.ContrastButton.Size = new System.Drawing.Size(85, 24);
@@ -180,7 +182,7 @@
             // GammaButton
             // 
             this.GammaButton.AutoSize = true;
-            this.GammaButton.Location = new System.Drawing.Point(7, 100);
+            this.GammaButton.Location = new System.Drawing.Point(6, 99);
             this.GammaButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.GammaButton.Name = "GammaButton";
             this.GammaButton.Size = new System.Drawing.Size(153, 24);
@@ -193,7 +195,7 @@
             // BrightnessButton
             // 
             this.BrightnessButton.AutoSize = true;
-            this.BrightnessButton.Location = new System.Drawing.Point(7, 67);
+            this.BrightnessButton.Location = new System.Drawing.Point(6, 62);
             this.BrightnessButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.BrightnessButton.Name = "BrightnessButton";
             this.BrightnessButton.Size = new System.Drawing.Size(98, 24);
@@ -206,7 +208,7 @@
             // NegativeButton
             // 
             this.NegativeButton.AutoSize = true;
-            this.NegativeButton.Location = new System.Drawing.Point(7, 33);
+            this.NegativeButton.Location = new System.Drawing.Point(6, 27);
             this.NegativeButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.NegativeButton.Name = "NegativeButton";
             this.NegativeButton.Size = new System.Drawing.Size(90, 24);
@@ -236,6 +238,19 @@
             this.BrushShapeLabel.Size = new System.Drawing.Size(0, 36);
             this.BrushShapeLabel.TabIndex = 4;
             this.BrushShapeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // NoneButton
+            // 
+            this.NoneButton.AutoSize = true;
+            this.NoneButton.Location = new System.Drawing.Point(207, 28);
+            this.NoneButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.NoneButton.Name = "NoneButton";
+            this.NoneButton.Size = new System.Drawing.Size(66, 24);
+            this.NoneButton.TabIndex = 5;
+            this.NoneButton.TabStop = true;
+            this.NoneButton.Text = "None";
+            this.NoneButton.UseVisualStyleBackColor = true;
+            this.NoneButton.CheckedChanged += new System.EventHandler(this.OnFilterCheckedChanged);
             // 
             // GUI
             // 
@@ -276,5 +291,6 @@
         private Button BrushButton;
         private Button LoadImageButton;
         private Label BrushShapeLabel;
+        private RadioButton NoneButton;
     }
 }

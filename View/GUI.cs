@@ -81,8 +81,8 @@ namespace View
         {
             _vertexSize = 5;
             _defaultColor = Color.Black;
-            NegativeButton.Checked = true;
-            _currentFilterMethod = FilterMethod.Negative;
+            NoneButton.Checked = true;
+            _currentFilterMethod = FilterMethod.None;
             RemovePolygonButton.Enabled = false;
             BrezierChart.Enabled = false;
             RChart.Enabled = false;
