@@ -17,7 +17,7 @@ namespace Presenter
         public AppManager(IView view)
         {
             _emptyQuantity = new List<KeyValuePair<int, int>>(256);
-            for (int i = 0; i < 256; i++)
+            for (int i = 0; i < 256; ++i)
                 _emptyQuantity.Add(new KeyValuePair<int, int>(i, 0));
 
             View = view;

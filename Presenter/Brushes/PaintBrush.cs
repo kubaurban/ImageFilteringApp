@@ -16,7 +16,7 @@ namespace Presenter.Brushes
         public IEnumerable<Pixel> GetBrushPixels(LoadedImage image)
         {
             var center = Center!.Value;
-            for (int y = center.Y - Radius; y < center.Y + Radius + 1; y++)
+            for (int y = center.Y - Radius; y < center.Y + Radius + 1; ++y)
             {
                 var x0 = (int)Math.Round(Math.Sqrt(Math.Pow(Radius, 2) - Math.Pow(y - center.Y, 2)) + center.X);
                 var x1 = 2 * center.X - x0;
@@ -24,7 +24,7 @@ namespace Presenter.Brushes
                 if (x1 < x0)
                     (x0, x1) = (x1, x0);
 
-                for (int x = x0; x < x1 + 1; x++)
+                for (int x = x0; x < x1 + 1; ++x)
                 {
                     if (x < 0 || y < 0 || x > image.Width - 1 || y > image.Height - 1)
                         continue;

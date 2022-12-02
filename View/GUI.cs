@@ -148,12 +148,12 @@ namespace View
             BezierChart.Series[0].Points.Clear();
             BezierChart.Series[1].Points.Clear();
             BezierChart.Series[2].Points.Clear();
-            for (int i = 0; i < args.Count; i++)
+            for (int i = 0; i < args.Count; ++i)
             {
                 BezierChart.Series[0].Points.AddXY(args[i], values[i]);
             }
 
-            for (int i = 0; i < bezierPointArgs.Count; i++)
+            for (int i = 0; i < bezierPointArgs.Count; ++i)
             {
                 BezierChart.Series[1].Points.AddXY(bezierPointArgs[i], bezierPointValues[i]);
                 BezierChart.Series[2].Points.AddXY(bezierPointArgs[i], bezierPointValues[i]);
@@ -172,7 +172,7 @@ namespace View
                 throw new InvalidDataException();
 
             chart.Series[0].Points.Clear();
-            for (int i = 0; i < args.Count; i++)
+            for (int i = 0; i < args.Count; ++i)
             {
                 chart.Series[0].Points.AddXY(args[i], values[i]);
             }
