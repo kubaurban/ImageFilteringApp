@@ -57,7 +57,7 @@ namespace View
 
         private void InitDefaultState()
         {
-            NegationButton.Checked = true;
+            NegativeButton.Checked = true;
             RemovePolygonButton.Enabled = false;
             BrezierChart.Enabled = false;
             RChart.Enabled = false;

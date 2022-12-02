@@ -40,7 +40,7 @@
             this.ContrastButton = new System.Windows.Forms.RadioButton();
             this.GammaButton = new System.Windows.Forms.RadioButton();
             this.BrightnessButton = new System.Windows.Forms.RadioButton();
-            this.NegationButton = new System.Windows.Forms.RadioButton();
+            this.NegativeButton = new System.Windows.Forms.RadioButton();
             this.LoadImageButton = new System.Windows.Forms.Button();
             this.BrushShapeLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
@@ -140,7 +140,7 @@
             this.FiltersBox.Controls.Add(this.ContrastButton);
             this.FiltersBox.Controls.Add(this.GammaButton);
             this.FiltersBox.Controls.Add(this.BrightnessButton);
-            this.FiltersBox.Controls.Add(this.NegationButton);
+            this.FiltersBox.Controls.Add(this.NegativeButton);
             this.FiltersBox.Location = new System.Drawing.Point(3, 148);
             this.FiltersBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.FiltersBox.Name = "FiltersBox";
@@ -157,10 +157,10 @@
             this.BrezierButton.Location = new System.Drawing.Point(7, 167);
             this.BrezierButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.BrezierButton.Name = "BrezierButton";
-            this.BrezierButton.Size = new System.Drawing.Size(134, 24);
+            this.BrezierButton.Size = new System.Drawing.Size(115, 24);
             this.BrezierButton.TabIndex = 4;
             this.BrezierButton.TabStop = true;
-            this.BrezierButton.Text = "Brezier function";
+            this.BrezierButton.Text = "Brezier curve";
             this.BrezierButton.UseVisualStyleBackColor = true;
             // 
             // ContrastButton
@@ -199,17 +199,17 @@
             this.BrightnessButton.Text = "Brightness";
             this.BrightnessButton.UseVisualStyleBackColor = true;
             // 
-            // NegationButton
+            // NegativeButton
             // 
-            this.NegationButton.AutoSize = true;
-            this.NegationButton.Location = new System.Drawing.Point(7, 33);
-            this.NegationButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.NegationButton.Name = "NegationButton";
-            this.NegationButton.Size = new System.Drawing.Size(92, 24);
-            this.NegationButton.TabIndex = 0;
-            this.NegationButton.TabStop = true;
-            this.NegationButton.Text = "Negation";
-            this.NegationButton.UseVisualStyleBackColor = true;
+            this.NegativeButton.AutoSize = true;
+            this.NegativeButton.Location = new System.Drawing.Point(7, 33);
+            this.NegativeButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.NegativeButton.Name = "NegativeButton";
+            this.NegativeButton.Size = new System.Drawing.Size(90, 24);
+            this.NegativeButton.TabIndex = 0;
+            this.NegativeButton.TabStop = true;
+            this.NegativeButton.Text = "Negative";
+            this.NegativeButton.UseVisualStyleBackColor = true;
             // 
             // LoadImageButton
             // 
@@ -264,7 +264,7 @@
         private RadioButton ContrastButton;
         private RadioButton GammaButton;
         private RadioButton BrightnessButton;
-        private RadioButton NegationButton;
+        private RadioButton NegativeButton;
         private Button RemovePolygonButton;
         private Button AddPolygonButton;
         private Button BrushButton;
