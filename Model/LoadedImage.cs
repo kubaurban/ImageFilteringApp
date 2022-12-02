@@ -23,7 +23,12 @@ namespace Model
 
         public Pixel this[int x, int y] => new(x, y, _fastBitmap.GetPixel(x, y));
 
-        public void SetPixel(int x, int y, Color color) => _fastBitmap.SetPixel(x, y, color);
+        public void SetPixel(int x, int y, Color color)
+        {
+            _fastBitmap.SetPixel(x, y, color);
+            Touched[x, y] = true;
+        }
+
         public void Lock() => _fastBitmap.Lock();
         public void Unlock() => _fastBitmap.Unlock();
 
@@ -31,15 +36,26 @@ namespace Model
         {
             _fastBitmap.Lock();
 
-            for (int i = 0; i < _bitmap.Width; i++)
+            for (int i = 0; i < Width; ++i)
             {
-                for (int j = 0; j < _bitmap.Height; j++)
+                for (int j = 0; j < Height; ++j)
                 {
                     yield return this[i, j];
                 }
             }
 
             _fastBitmap.Unlock();
+        }
+
+        public void Untouch()
+        {
+            for (int i = 0; i < Width; ++i)
+            {
+                for (int j = 0; j < Height; ++j)
+                {
+                    Touched[i, j] = false;
+                }
+            }
         }
     }
 }
