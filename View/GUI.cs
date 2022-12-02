@@ -14,6 +14,7 @@ namespace View
         public event EventHandler BrushShapeChanged;
         public event EventHandler FilterMethodChanged;
         public event EventHandler ApplyPolygonFilter;
+        public event MouseEventHandler CanvasClicked;
         public event EventHandler<string> LoadedFilenameChanged;
 
         private BrushShape _currentBrushShape;
@@ -255,6 +256,11 @@ namespace View
         private void OnApplyButtonClick(object sender, EventArgs e)
         {
             ApplyPolygonFilter?.Invoke(sender, e);
+        }
+
+        private void OnCanvasClick(object sender, MouseEventArgs e)
+        {
+            CanvasClicked?.Invoke(sender, new MouseEventArgs(e.Button, e.Clicks, e.X - _canvasMargin, e.Y - _canvasMargin, e.Delta));
         }
         #endregion Handlers
     }

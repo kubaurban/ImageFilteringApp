@@ -88,6 +88,7 @@
             this.Canvas.Size = new System.Drawing.Size(563, 679);
             this.Canvas.TabIndex = 0;
             this.Canvas.TabStop = false;
+            this.Canvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnCanvasClick);
             // 
             // BrushShapesBox
             // 
