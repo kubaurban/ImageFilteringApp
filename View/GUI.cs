@@ -12,6 +12,7 @@ namespace View
 
         public event EventHandler BrushShapeChanged;
         public event EventHandler FilterMethodChanged;
+        public event EventHandler<string> LoadedFilenameChanged;
 
         private BrushShape _currentBrushShape;
         private FilterMethod _currentFilterMethod;
@@ -107,6 +108,20 @@ namespace View
         private void OnFilterCheckedChanged(object sender, EventArgs e)
         {
             FilterMethodChanged?.Invoke(sender, e);
+        }
+
+        private void OnLoadImageButtonClick(object sender, EventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog()
+            {
+                Title = "Please select an mage",
+                Filter = "Image Files | *.jpg;*.jpeg;*.png;"
+            };
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                LoadedFilenameChanged?.Invoke(sender, @openFileDialog.FileName);
+            }
         }
     }
 }

@@ -225,6 +225,7 @@
             this.LoadImageButton.TabIndex = 3;
             this.LoadImageButton.Text = "Load image";
             this.LoadImageButton.UseVisualStyleBackColor = true;
+            this.LoadImageButton.Click += new System.EventHandler(this.OnLoadImageButtonClick);
             // 
             // BrushShapeLabel
             // 
