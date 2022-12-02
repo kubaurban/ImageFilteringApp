@@ -5,19 +5,20 @@ namespace Presenter
 {
     public class AppManager : IAppManager
     {
+        private readonly List<KeyValuePair<int, int>> _emptyQuantity;
+
         private IView View { get; }
         private LoadedImage? LoadedImage { get; set; }
-        private List<KeyValuePair<int, int>> _emptyQuantity;
 
         public Form? GetForm() => View as Form;
 
         public AppManager(IView view)
         {
-            View = view;
-
             _emptyQuantity = new List<KeyValuePair<int, int>>(255);
             for (int i = 1; i < 256; i++)
                 _emptyQuantity.Add(new KeyValuePair<int, int>(i, 0));
+
+            View = view;
 
             View.LoadedFilenameChanged += HandleLoadedFilenameChanged;
         }
