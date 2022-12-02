@@ -19,8 +19,8 @@ namespace View
 
         private BrushShape _currentBrushShape;
         private FilterMethod _currentFilterMethod;
-        private Bitmap _drawArea;
-        private FastBitmap _fastDrawArea;
+        private readonly Bitmap _drawArea;
+        private readonly FastBitmap _fastDrawArea;
         private int _vertexSize;
         private int _canvasMargin;
         private Color _defaultColor;
@@ -180,7 +180,6 @@ namespace View
         #endregion Charts
 
         #region Canvas drawing
-        private PointF Offset(PointF p) => new PointF(p.X + _canvasMargin, p.Y + _canvasMargin);
         public void SetPixel(int x, int y, Color color) => _fastDrawArea.SetPixel(x + _canvasMargin, y + _canvasMargin, color);
 
         public void DrawVertex(PointF center, Color? color = null)
@@ -219,6 +218,8 @@ namespace View
         public void LockDrawArea() => _ = _fastDrawArea.Lock();
 
         public void UnlockDrawArea() => _fastDrawArea.Unlock();
+
+        private PointF Offset(PointF p) => new PointF(p.X + _canvasMargin, p.Y + _canvasMargin);
         #endregion Canvas drawing
 
         #region Handlers
