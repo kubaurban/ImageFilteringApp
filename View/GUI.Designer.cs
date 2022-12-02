@@ -32,10 +32,12 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.Canvas = new System.Windows.Forms.PictureBox();
             this.BrushShapesBox = new System.Windows.Forms.GroupBox();
+            this.ApplyButton = new System.Windows.Forms.Button();
             this.RemovePolygonButton = new System.Windows.Forms.Button();
             this.AddPolygonButton = new System.Windows.Forms.Button();
             this.BrushButton = new System.Windows.Forms.Button();
             this.FiltersBox = new System.Windows.Forms.GroupBox();
+            this.NoneButton = new System.Windows.Forms.RadioButton();
             this.BrezierButton = new System.Windows.Forms.RadioButton();
             this.ContrastButton = new System.Windows.Forms.RadioButton();
             this.GammaButton = new System.Windows.Forms.RadioButton();
@@ -43,7 +45,6 @@
             this.NegativeButton = new System.Windows.Forms.RadioButton();
             this.LoadImageButton = new System.Windows.Forms.Button();
             this.BrushShapeLabel = new System.Windows.Forms.Label();
-            this.NoneButton = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
             this.BrushShapesBox.SuspendLayout();
@@ -90,6 +91,7 @@
             // 
             // BrushShapesBox
             // 
+            this.BrushShapesBox.Controls.Add(this.ApplyButton);
             this.BrushShapesBox.Controls.Add(this.RemovePolygonButton);
             this.BrushShapesBox.Controls.Add(this.AddPolygonButton);
             this.BrushShapesBox.Controls.Add(this.BrushButton);
@@ -103,10 +105,21 @@
             this.BrushShapesBox.TabStop = false;
             this.BrushShapesBox.Text = "Brush shapes";
             // 
+            // ApplyButton
+            // 
+            this.ApplyButton.Location = new System.Drawing.Point(288, 29);
+            this.ApplyButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ApplyButton.Name = "ApplyButton";
+            this.ApplyButton.Size = new System.Drawing.Size(80, 93);
+            this.ApplyButton.TabIndex = 3;
+            this.ApplyButton.Text = "Apply";
+            this.ApplyButton.UseVisualStyleBackColor = true;
+            this.ApplyButton.Click += new System.EventHandler(this.OnApplyButtonClick);
+            // 
             // RemovePolygonButton
             // 
             this.RemovePolygonButton.Image = ((System.Drawing.Image)(resources.GetObject("RemovePolygonButton.Image")));
-            this.RemovePolygonButton.Location = new System.Drawing.Point(258, 29);
+            this.RemovePolygonButton.Location = new System.Drawing.Point(202, 29);
             this.RemovePolygonButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.RemovePolygonButton.Name = "RemovePolygonButton";
             this.RemovePolygonButton.Size = new System.Drawing.Size(80, 93);
@@ -116,7 +129,7 @@
             // AddPolygonButton
             // 
             this.AddPolygonButton.Image = ((System.Drawing.Image)(resources.GetObject("AddPolygonButton.Image")));
-            this.AddPolygonButton.Location = new System.Drawing.Point(167, 29);
+            this.AddPolygonButton.Location = new System.Drawing.Point(116, 29);
             this.AddPolygonButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.AddPolygonButton.Name = "AddPolygonButton";
             this.AddPolygonButton.Size = new System.Drawing.Size(80, 93);
@@ -127,7 +140,7 @@
             // BrushButton
             // 
             this.BrushButton.Image = ((System.Drawing.Image)(resources.GetObject("BrushButton.Image")));
-            this.BrushButton.Location = new System.Drawing.Point(34, 29);
+            this.BrushButton.Location = new System.Drawing.Point(11, 29);
             this.BrushButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.BrushButton.Name = "BrushButton";
             this.BrushButton.Size = new System.Drawing.Size(80, 93);
@@ -152,6 +165,19 @@
             this.FiltersBox.TabIndex = 2;
             this.FiltersBox.TabStop = false;
             this.FiltersBox.Text = "Filters";
+            // 
+            // NoneButton
+            // 
+            this.NoneButton.AutoSize = true;
+            this.NoneButton.Location = new System.Drawing.Point(207, 28);
+            this.NoneButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.NoneButton.Name = "NoneButton";
+            this.NoneButton.Size = new System.Drawing.Size(66, 24);
+            this.NoneButton.TabIndex = 5;
+            this.NoneButton.TabStop = true;
+            this.NoneButton.Text = "None";
+            this.NoneButton.UseVisualStyleBackColor = true;
+            this.NoneButton.CheckedChanged += new System.EventHandler(this.OnFilterCheckedChanged);
             // 
             // BrezierButton
             // 
@@ -239,19 +265,6 @@
             this.BrushShapeLabel.TabIndex = 4;
             this.BrushShapeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // NoneButton
-            // 
-            this.NoneButton.AutoSize = true;
-            this.NoneButton.Location = new System.Drawing.Point(207, 28);
-            this.NoneButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.NoneButton.Name = "NoneButton";
-            this.NoneButton.Size = new System.Drawing.Size(66, 24);
-            this.NoneButton.TabIndex = 5;
-            this.NoneButton.TabStop = true;
-            this.NoneButton.Text = "None";
-            this.NoneButton.UseVisualStyleBackColor = true;
-            this.NoneButton.CheckedChanged += new System.EventHandler(this.OnFilterCheckedChanged);
-            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -292,5 +305,6 @@
         private Button LoadImageButton;
         private Label BrushShapeLabel;
         private RadioButton NoneButton;
+        private Button ApplyButton;
     }
 }

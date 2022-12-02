@@ -13,6 +13,7 @@ namespace View
 
         public event EventHandler BrushShapeChanged;
         public event EventHandler FilterMethodChanged;
+        public event EventHandler ApplyPolygonFilter;
         public event EventHandler<string> LoadedFilenameChanged;
 
         private BrushShape _currentBrushShape;
@@ -84,6 +85,7 @@ namespace View
             NoneButton.Checked = true;
             _currentFilterMethod = FilterMethod.None;
             RemovePolygonButton.Enabled = false;
+            ApplyButton.Enabled = false;
             BrezierChart.Enabled = false;
             RChart.Enabled = false;
             GChart.Enabled = false;
@@ -166,6 +168,11 @@ namespace View
             {
                 LoadedFilenameChanged?.Invoke(sender, @openFileDialog.FileName);
             }
+        }
+
+        private void OnApplyButtonClick(object sender, EventArgs e)
+        {
+            ApplyPolygonFilter?.Invoke(sender, e);
         }
         #endregion Handlers
     }

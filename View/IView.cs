@@ -6,6 +6,7 @@ namespace View
     {
         event EventHandler BrushShapeChanged;
         event EventHandler FilterMethodChanged;
+        event EventHandler ApplyPolygonFilter;
         event EventHandler<string> LoadedFilenameChanged;
 
         BrushShape BrushShape { get; }
