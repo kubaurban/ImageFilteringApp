@@ -24,13 +24,28 @@ namespace Presenter
 
             View.LoadedFilenameChanged += HandleLoadedFilenameChanged;
             View.CanvasClicked += HandleCanvasClicked;
+            View.CanvasClickedMouseMoved += HandleCanvasClickedMouseMoved;
+            View.CanvasClickedMouseUp += OnCanvasClickedMouseUp;
+        }
+
+        private void OnCanvasClickedMouseUp(object? sender, MouseEventArgs e) => LoadedImage?.Untouch();
+
+        private void HandleCanvasClickedMouseMoved(object? sender, MouseEventArgs e)
+        {
+            if (LoadedImage is not null)
+            {
+                DrawFilteredImage(e.Location);
+                View.RefreshArea();
+
+                ComputeHistograms();
+            }
         }
 
         private void HandleCanvasClicked(object? sender, MouseEventArgs e)
         {
             if (LoadedImage is not null)
             {
-                View.ModifyImage(LoadedImage!, new PaintBrush(100, e.Location), new NegativeFilter());
+                DrawFilteredImage(e.Location);
                 View.RefreshArea();
 
                 ComputeHistograms();
@@ -68,8 +83,9 @@ namespace Presenter
             }
         }
 
-        private void DrawFilteredImage()
+        private void DrawFilteredImage(Point click)
         {
+            View.ModifyImage(LoadedImage!, new PaintBrush(100, click), new NegativeFilter());
         }
 
         private void ComputeHistograms()

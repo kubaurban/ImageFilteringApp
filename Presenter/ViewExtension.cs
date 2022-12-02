@@ -13,10 +13,13 @@ namespace Presenter
             view.LockDrawArea();
             foreach (var pixel in brush.GetBrushPixels(image))
             {
-                var filteredColor = filter.Filter(pixel.Color);
+                if (!image.Touched[pixel.X, pixel.Y])
+                {
+                    var filteredColor = filter.Filter(pixel.Color);
 
-                image.SetPixel(pixel.X, pixel.Y, filteredColor);
-                view.SetPixel(pixel.X, pixel.Y, filteredColor);
+                    image.SetPixel(pixel.X, pixel.Y, filteredColor);
+                    view.SetPixel(pixel.X, pixel.Y, filteredColor); 
+                }
             }
             view.UnlockDrawArea();
             image.Unlock();
