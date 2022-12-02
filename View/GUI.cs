@@ -36,21 +36,21 @@ namespace View
             };
             //// RChart
             RChart = CreateChart("RChart", "R color component");
-            tableLayoutPanel1.Controls.Add(RChart, 2, 0);
+            tableLayoutPanel1.Controls.Add(RChart, 3, 0);
             tableLayoutPanel1.SetRowSpan(tableLayoutPanel1.Controls["RChart"], 3);
             RChart.Dock = DockStyle.Fill;
             RChart.Series.Add(colorSeries);
 
             //// GChart
             GChart = CreateChart("GChart", "G color component");
-            tableLayoutPanel1.Controls.Add(GChart, 2, 3);
+            tableLayoutPanel1.Controls.Add(GChart, 3, 3);
             tableLayoutPanel1.SetRowSpan(tableLayoutPanel1.Controls["GChart"], 2);
             GChart.Dock = DockStyle.Fill;
             GChart.Series.Add(colorSeries);
 
             //// BChart
             BChart = CreateChart("BChart", "B color component");
-            tableLayoutPanel1.Controls.Add(BChart, 2, 5);
+            tableLayoutPanel1.Controls.Add(BChart, 3, 5);
             BChart.Dock = DockStyle.Fill;
             BChart.Series.Add(colorSeries);
         }
@@ -63,6 +63,7 @@ namespace View
             RChart.Enabled = false;
             GChart.Enabled = false;
             BChart.Enabled = false;
+            BrushShapeLabel.Text = "Brush type: Paintbrush";
         }
 
         private Chart CreateChart(string chartName, string chartTitle)
@@ -77,6 +78,16 @@ namespace View
             chart.Series.Clear();
 
             return chart;
+        }
+
+        private void OnBrushButtonClick(object sender, EventArgs e)
+        {
+            BrushShapeLabel.Text = "Brush type: Paintbrush";
+        }
+
+        private void OnAddPolygonButtonClick(object sender, EventArgs e)
+        {
+            BrushShapeLabel.Text = "Brush type: Polygon";
         }
     }
 }

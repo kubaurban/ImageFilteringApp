@@ -42,6 +42,7 @@
             this.BrightnessButton = new System.Windows.Forms.RadioButton();
             this.NegationButton = new System.Windows.Forms.RadioButton();
             this.LoadImageButton = new System.Windows.Forms.Button();
+            this.BrushShapeLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
             this.BrushShapesBox.SuspendLayout();
@@ -50,14 +51,16 @@
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnCount = 4;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.5F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.5F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.Controls.Add(this.Canvas, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.BrushShapesBox, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.FiltersBox, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.LoadImageButton, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.LoadImageButton, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.BrushShapeLabel, 1, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(14, 16);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -74,6 +77,7 @@
             // Canvas
             // 
             this.Canvas.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.tableLayoutPanel1.SetColumnSpan(this.Canvas, 2);
             this.Canvas.Location = new System.Drawing.Point(384, 40);
             this.Canvas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Canvas.MaximumSize = new System.Drawing.Size(563, 715);
@@ -117,6 +121,7 @@
             this.AddPolygonButton.Size = new System.Drawing.Size(80, 93);
             this.AddPolygonButton.TabIndex = 1;
             this.AddPolygonButton.UseVisualStyleBackColor = true;
+            this.AddPolygonButton.Click += new System.EventHandler(this.OnAddPolygonButtonClick);
             // 
             // BrushButton
             // 
@@ -127,6 +132,7 @@
             this.BrushButton.Size = new System.Drawing.Size(80, 93);
             this.BrushButton.TabIndex = 0;
             this.BrushButton.UseVisualStyleBackColor = true;
+            this.BrushButton.Click += new System.EventHandler(this.OnBrushButtonClick);
             // 
             // FiltersBox
             // 
@@ -208,12 +214,22 @@
             // LoadImageButton
             // 
             this.LoadImageButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.LoadImageButton.Location = new System.Drawing.Point(829, 3);
+            this.LoadImageButton.Location = new System.Drawing.Point(828, 3);
             this.LoadImageButton.Name = "LoadImageButton";
             this.LoadImageButton.Size = new System.Drawing.Size(120, 30);
             this.LoadImageButton.TabIndex = 3;
             this.LoadImageButton.Text = "Load image";
             this.LoadImageButton.UseVisualStyleBackColor = true;
+            // 
+            // BrushShapeLabel
+            // 
+            this.BrushShapeLabel.AutoSize = true;
+            this.BrushShapeLabel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.BrushShapeLabel.Location = new System.Drawing.Point(384, 0);
+            this.BrushShapeLabel.Name = "BrushShapeLabel";
+            this.BrushShapeLabel.Size = new System.Drawing.Size(0, 36);
+            this.BrushShapeLabel.TabIndex = 4;
+            this.BrushShapeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // GUI
             // 
@@ -229,6 +245,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ImageFiltrator";
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).EndInit();
             this.BrushShapesBox.ResumeLayout(false);
             this.FiltersBox.ResumeLayout(false);
@@ -252,5 +269,6 @@
         private Button AddPolygonButton;
         private Button BrushButton;
         private Button LoadImageButton;
+        private Label BrushShapeLabel;
     }
 }
