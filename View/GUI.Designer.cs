@@ -41,6 +41,7 @@
             this.GammaButton = new System.Windows.Forms.RadioButton();
             this.BrightnessButton = new System.Windows.Forms.RadioButton();
             this.NegationButton = new System.Windows.Forms.RadioButton();
+            this.LoadImageButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
             this.BrushShapesBox.SuspendLayout();
@@ -53,14 +54,16 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.Controls.Add(this.Canvas, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.Canvas, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.BrushShapesBox, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.FiltersBox, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.FiltersBox, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.LoadImageButton, 1, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(14, 16);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 5;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowCount = 6;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.33F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.67F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66F));
@@ -71,12 +74,12 @@
             // Canvas
             // 
             this.Canvas.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.Canvas.Location = new System.Drawing.Point(384, 4);
+            this.Canvas.Location = new System.Drawing.Point(384, 40);
             this.Canvas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Canvas.MaximumSize = new System.Drawing.Size(563, 715);
-            this.Canvas.MinimumSize = new System.Drawing.Size(563, 715);
             this.Canvas.Name = "Canvas";
-            this.Canvas.Size = new System.Drawing.Size(563, 715);
+            this.tableLayoutPanel1.SetRowSpan(this.Canvas, 5);
+            this.Canvas.Size = new System.Drawing.Size(563, 679);
             this.Canvas.TabIndex = 0;
             this.Canvas.TabStop = false;
             // 
@@ -89,6 +92,7 @@
             this.BrushShapesBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.BrushShapesBox.Name = "BrushShapesBox";
             this.BrushShapesBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tableLayoutPanel1.SetRowSpan(this.BrushShapesBox, 2);
             this.BrushShapesBox.Size = new System.Drawing.Size(374, 136);
             this.BrushShapesBox.TabIndex = 1;
             this.BrushShapesBox.TabStop = false;
@@ -201,6 +205,16 @@
             this.NegationButton.Text = "Negation";
             this.NegationButton.UseVisualStyleBackColor = true;
             // 
+            // LoadImageButton
+            // 
+            this.LoadImageButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.LoadImageButton.Location = new System.Drawing.Point(829, 3);
+            this.LoadImageButton.Name = "LoadImageButton";
+            this.LoadImageButton.Size = new System.Drawing.Size(120, 30);
+            this.LoadImageButton.TabIndex = 3;
+            this.LoadImageButton.Text = "Load image";
+            this.LoadImageButton.UseVisualStyleBackColor = true;
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -237,5 +251,6 @@
         private Button RemovePolygonButton;
         private Button AddPolygonButton;
         private Button BrushButton;
+        private Button LoadImageButton;
     }
 }
