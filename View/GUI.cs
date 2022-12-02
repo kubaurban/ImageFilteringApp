@@ -15,6 +15,8 @@ namespace View
         public event EventHandler FilterMethodChanged;
         public event EventHandler ApplyPolygonFilter;
         public event MouseEventHandler CanvasClicked;
+        public event MouseEventHandler CanvasClickedMouseMoved;
+        public event MouseEventHandler CanvasClickedMouseUp;
         public event EventHandler<string> LoadedFilenameChanged;
 
         private BrushShape _currentBrushShape;
@@ -26,6 +28,7 @@ namespace View
         private Color _defaultColor;
 
         private Graphics Graphics => Graphics.FromImage(_drawArea);
+        private bool IsCanvasClicked { get; set; }
 
         public BrushShape BrushShape => _currentBrushShape;
         public FilterMethod FilterMethod => _currentFilterMethod;
@@ -262,6 +265,21 @@ namespace View
         private void OnCanvasClick(object sender, MouseEventArgs e)
         {
             CanvasClicked?.Invoke(sender, new MouseEventArgs(e.Button, e.Clicks, e.X - _canvasMargin, e.Y - _canvasMargin, e.Delta));
+            IsCanvasClicked = true;
+        }
+
+        private void OnCanvasClickedMouseUp(object sender, MouseEventArgs e)
+        {
+            CanvasClickedMouseUp?.Invoke(sender, new MouseEventArgs(e.Button, e.Clicks, e.X - _canvasMargin, e.Y - _canvasMargin, e.Delta));
+            IsCanvasClicked = false;
+        }
+
+        private void OnCanvasClickedMouseMove(object sender, MouseEventArgs e)
+        {
+            if (IsCanvasClicked)
+            {
+                CanvasClickedMouseMoved?.Invoke(sender, new MouseEventArgs(e.Button, e.Clicks, e.X - _canvasMargin, e.Y - _canvasMargin, e.Delta));
+            }
         }
         #endregion Handlers
     }

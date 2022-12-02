@@ -9,6 +9,8 @@ namespace View
         event EventHandler ApplyPolygonFilter;
         event EventHandler<string> LoadedFilenameChanged;
         event MouseEventHandler CanvasClicked;
+        event MouseEventHandler CanvasClickedMouseMoved;
+        event MouseEventHandler CanvasClickedMouseUp;
 
         BrushShape BrushShape { get; }
         FilterMethod FilterMethod { get; }

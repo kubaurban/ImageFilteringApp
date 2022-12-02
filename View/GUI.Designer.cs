@@ -89,6 +89,8 @@
             this.Canvas.TabIndex = 0;
             this.Canvas.TabStop = false;
             this.Canvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnCanvasClick);
+            this.Canvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnCanvasClickedMouseMove);
+            this.Canvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OnCanvasClickedMouseUp);
             // 
             // BrushShapesBox
             // 
