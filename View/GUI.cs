@@ -83,6 +83,8 @@ namespace View
                 ChartType = SeriesChartType.Line,
                 Color = Color.DarkGray,
             });
+            BezierChart.ChartAreas[0].AxisX.Minimum = 1;
+            BezierChart.ChartAreas[0].AxisX.Maximum = 255;
 
             // RChart
             RChart = CreateChart("RChart", "R color component");
@@ -94,6 +96,8 @@ namespace View
                 ChartType = SeriesChartType.SplineArea,
                 Color = Color.Red,
             });
+            RChart.ChartAreas[0].AxisX.Minimum = 1;
+            RChart.ChartAreas[0].AxisX.Maximum = 255;
 
             // GChart
             GChart = CreateChart("GChart", "G color component");
@@ -105,6 +109,8 @@ namespace View
                 ChartType = SeriesChartType.SplineArea,
                 Color = Color.Green,
             });
+            GChart.ChartAreas[0].AxisX.Minimum = 1;
+            GChart.ChartAreas[0].AxisX.Maximum = 255;
 
             // BChart
             BChart = CreateChart("BChart", "B color component");
@@ -115,6 +121,8 @@ namespace View
                 ChartType = SeriesChartType.SplineArea,
                 Color = Color.Blue,
             });
+            BChart.ChartAreas[0].AxisX.Minimum = 1;
+            BChart.ChartAreas[0].AxisX.Maximum = 255;
         }
 
         private static Chart CreateChart(string chartName, string chartTitle)
