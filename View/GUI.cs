@@ -84,7 +84,7 @@ namespace View
                 ChartType = SeriesChartType.Line,
                 Color = Color.DarkGray,
             });
-            BezierChart.ChartAreas[0].AxisX.Minimum = 1;
+            BezierChart.ChartAreas[0].AxisX.Minimum = 0;
             BezierChart.ChartAreas[0].AxisX.Maximum = 255;
 
             // RChart
@@ -97,7 +97,7 @@ namespace View
                 ChartType = SeriesChartType.SplineArea,
                 Color = Color.Red,
             });
-            RChart.ChartAreas[0].AxisX.Minimum = 1;
+            RChart.ChartAreas[0].AxisX.Minimum = 0;
             RChart.ChartAreas[0].AxisX.Maximum = 255;
 
             // GChart
@@ -110,7 +110,7 @@ namespace View
                 ChartType = SeriesChartType.SplineArea,
                 Color = Color.Green,
             });
-            GChart.ChartAreas[0].AxisX.Minimum = 1;
+            GChart.ChartAreas[0].AxisX.Minimum = 0;
             GChart.ChartAreas[0].AxisX.Maximum = 255;
 
             // BChart
@@ -122,7 +122,7 @@ namespace View
                 ChartType = SeriesChartType.SplineArea,
                 Color = Color.Blue,
             });
-            BChart.ChartAreas[0].AxisX.Minimum = 1;
+            BChart.ChartAreas[0].AxisX.Minimum = 0;
             BChart.ChartAreas[0].AxisX.Maximum = 255;
         }
 
