@@ -1,3 +1,4 @@
+using Microsoft.Practices.Unity;
 using View;
 
 namespace Presenter
@@ -11,7 +12,13 @@ namespace Presenter
         public static void Main()
         {
             ApplicationConfiguration.Initialize();
-            Application.Run(new GUI());
+
+            var container = new UnityContainer();
+            container.RegisterType<IAppManager, AppManager>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IView, GUI>(new ContainerControlledLifetimeManager());
+
+            var appManager = container.Resolve<IAppManager>();
+            Application.Run(appManager.GetForm());
         }
     }
 }
