@@ -4,6 +4,6 @@ namespace Presenter.Brushes
 {
     internal interface IBrush
     {
-        IEnumerable<Pixel> GetBrushPixels(RawImage image);
+        IEnumerable<Pixel> GetBrushPixels(LoadedImage image);
     }
 }

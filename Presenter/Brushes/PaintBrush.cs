@@ -13,7 +13,7 @@ namespace Presenter.Brushes
             Radius = radius;
         }
 
-        public IEnumerable<Pixel> GetBrushPixels(RawImage image)
+        public IEnumerable<Pixel> GetBrushPixels(LoadedImage image)
         {
             var center = Center!.Value;
             for (int y = center.Y - Radius; y < center.Y + Radius + 1; y++)
@@ -26,7 +26,7 @@ namespace Presenter.Brushes
 
                 for (int x = x0; x < x1 + 1; x++)
                 {
-                    if (x < 0 || y < 0 || x > image.Bitmap.Width - 1 || y > image.Bitmap.Height - 1)
+                    if (x < 0 || y < 0 || x > image.Width - 1 || y > image.Height - 1)
                         continue;
 
                     yield return image[x, y];
