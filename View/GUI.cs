@@ -13,6 +13,8 @@ namespace View
         {
             InitializeComponent();
             InitializeCharts();
+
+            InitDefaultState();
         }
 
         private void InitializeCharts()
@@ -51,6 +53,16 @@ namespace View
             tableLayoutPanel1.Controls.Add(BChart, 2, 4);
             BChart.Dock = DockStyle.Fill;
             BChart.Series.Add(colorSeries);
+        }
+
+        private void InitDefaultState()
+        {
+            NegationButton.Checked = true;
+            RemovePolygonButton.Enabled = false;
+            BrezierChart.Enabled = false;
+            RChart.Enabled = false;
+            GChart.Enabled = false;
+            BChart.Enabled = false;
         }
 
         private Chart CreateChart(string chartName, string chartTitle)
