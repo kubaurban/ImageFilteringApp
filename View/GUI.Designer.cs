@@ -76,7 +76,7 @@
             // 
             // Canvas
             // 
-            this.Canvas.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.Canvas.BackColor = System.Drawing.Color.White;
             this.tableLayoutPanel1.SetColumnSpan(this.Canvas, 2);
             this.Canvas.Location = new System.Drawing.Point(384, 40);
             this.Canvas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

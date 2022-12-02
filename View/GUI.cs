@@ -1,3 +1,4 @@
+using FastBitmapLib;
 using System.Windows.Forms.DataVisualization.Charting;
 using View.Enums;
 
@@ -16,6 +17,12 @@ namespace View
 
         private BrushShape _currentBrushShape;
         private FilterMethod _currentFilterMethod;
+        private Bitmap _drawArea;
+        private FastBitmap _fastDrawArea;
+        private int _vertexSize;
+        private Color _defaultColor;
+
+        private Graphics Graphics => Graphics.FromImage(_drawArea);
 
         public BrushShape BrushShape => _currentBrushShape;
         public FilterMethod FilterMethod => _currentFilterMethod;
@@ -24,6 +31,10 @@ namespace View
         {
             InitializeComponent();
             InitializeCharts();
+
+            _drawArea = new Bitmap(Canvas.Width, Canvas.Height);
+            _fastDrawArea = new FastBitmap(_drawArea);
+            Canvas.Image = _drawArea;
 
             InitDefaultState();
         }
@@ -68,6 +79,8 @@ namespace View
 
         private void InitDefaultState()
         {
+            _vertexSize = 5;
+            _defaultColor = Color.Black;
             NegativeButton.Checked = true;
             _currentFilterMethod = FilterMethod.Negative;
             RemovePolygonButton.Enabled = false;
@@ -93,6 +106,37 @@ namespace View
             return chart;
         }
 
+        #region Canvas drawing
+        public void SetPixel(int x, int y, Color color) => _fastDrawArea.SetPixel(x, Canvas.Height - y, color);
+
+        public void DrawVertex(PointF center, Color? color = null)
+        {
+            using var g = Graphics;
+            g.DrawRectangle(new(color ?? _defaultColor), center.X - _vertexSize, Canvas.Height - center.Y + _vertexSize, _vertexSize, _vertexSize);
+        }
+
+        public void DrawLine(PointF start, PointF end, Color? color = null)
+        {
+            using var g = Graphics;
+            g.DrawLine(new(color ?? _defaultColor), start.X, Canvas.Height - start.Y, end.X, Canvas.Height - end.Y);
+        }
+
+        public void DrawCircle(PointF center, int radius, Color? color = null)
+        {
+            using var g = Graphics;
+            g.DrawEllipse(new(color ?? _defaultColor), center.X - radius, Canvas.Height - center.Y + radius, radius * 2, radius * 2);
+        }
+
+        public void ClearArea()
+        {
+            using var g = Graphics;
+            g.Clear(Color.White);
+        }
+
+        public void RefreshArea() => Canvas.Refresh();
+        #endregion Canvas drawing
+
+        #region Handlers
         private void OnBrushButtonClick(object sender, EventArgs e)
         {
             BrushShapeChanged?.Invoke(sender, e);
@@ -123,5 +167,6 @@ namespace View
                 LoadedFilenameChanged?.Invoke(sender, @openFileDialog.FileName);
             }
         }
+        #endregion Handlers
     }
 }
