@@ -6,7 +6,7 @@ namespace View
 {
     public partial class GUI : Form, IView
     {
-        private Chart BrezierChart { get; set; }
+        private Chart BezierChart { get; set; }
         private Chart RChart { get; set; }
         private Chart GChart { get; set; }
         private Chart BChart { get; set; }
@@ -40,44 +40,6 @@ namespace View
             InitDefaultState();
         }
 
-        private void InitializeCharts()
-        {
-            // BrezierChart
-            BrezierChart = CreateChart("BrezierChart", "Brezier curve");
-            tableLayoutPanel1.Controls.Add(BrezierChart, 0, 4);
-            tableLayoutPanel1.SetRowSpan(tableLayoutPanel1.Controls["BrezierChart"], 2);
-            BrezierChart.Dock = DockStyle.Fill;
-            BrezierChart.Series.Add(new Series()
-            {
-                ChartType = SeriesChartType.Spline
-            });
-
-            // Color component charts
-            var colorSeries = new Series()
-            {
-                ChartType = SeriesChartType.Spline
-            };
-            //// RChart
-            RChart = CreateChart("RChart", "R color component");
-            tableLayoutPanel1.Controls.Add(RChart, 3, 0);
-            tableLayoutPanel1.SetRowSpan(tableLayoutPanel1.Controls["RChart"], 3);
-            RChart.Dock = DockStyle.Fill;
-            RChart.Series.Add(colorSeries);
-
-            //// GChart
-            GChart = CreateChart("GChart", "G color component");
-            tableLayoutPanel1.Controls.Add(GChart, 3, 3);
-            tableLayoutPanel1.SetRowSpan(tableLayoutPanel1.Controls["GChart"], 2);
-            GChart.Dock = DockStyle.Fill;
-            GChart.Series.Add(colorSeries);
-
-            //// BChart
-            BChart = CreateChart("BChart", "B color component");
-            tableLayoutPanel1.Controls.Add(BChart, 3, 5);
-            BChart.Dock = DockStyle.Fill;
-            BChart.Series.Add(colorSeries);
-        }
-
         private void InitDefaultState()
         {
             _vertexSize = 5;
@@ -86,7 +48,7 @@ namespace View
             _currentFilterMethod = FilterMethod.None;
             RemovePolygonButton.Enabled = false;
             ApplyButton.Enabled = false;
-            BrezierChart.Enabled = false;
+            BezierChart.Enabled = false;
             RChart.Enabled = false;
             GChart.Enabled = false;
             BChart.Enabled = false;
@@ -94,7 +56,64 @@ namespace View
             _currentBrushShape = BrushShape.Paintbrush;
         }
 
-        private Chart CreateChart(string chartName, string chartTitle)
+        #region Charts
+        private void InitializeCharts()
+        {
+            // BezierChart
+            BezierChart = CreateChart("BezierChart", "Bezier curve");
+            tableLayoutPanel1.Controls.Add(BezierChart, 0, 4);
+            tableLayoutPanel1.SetRowSpan(tableLayoutPanel1.Controls["BezierChart"], 2);
+            BezierChart.Dock = DockStyle.Fill;
+            BezierChart.Series.Add(new Series()
+            {
+                ChartType = SeriesChartType.Spline,
+                Color = Color.Blue,
+            });
+            BezierChart.Series.Add(new Series()
+            {
+                ChartType = SeriesChartType.Point,
+                Color = Color.DarkGray,
+            });
+            BezierChart.Series.Add(new Series()
+            {
+                ChartType = SeriesChartType.Line,
+                Color = Color.DarkGray,
+            });
+
+            // RChart
+            RChart = CreateChart("RChart", "R color component");
+            tableLayoutPanel1.Controls.Add(RChart, 3, 0);
+            tableLayoutPanel1.SetRowSpan(tableLayoutPanel1.Controls["RChart"], 3);
+            RChart.Dock = DockStyle.Fill;
+            RChart.Series.Add(new Series()
+            {
+                ChartType = SeriesChartType.SplineArea,
+                Color = Color.Red,
+            });
+
+            // GChart
+            GChart = CreateChart("GChart", "G color component");
+            tableLayoutPanel1.Controls.Add(GChart, 3, 3);
+            tableLayoutPanel1.SetRowSpan(tableLayoutPanel1.Controls["GChart"], 2);
+            GChart.Dock = DockStyle.Fill;
+            GChart.Series.Add(new Series()
+            {
+                ChartType = SeriesChartType.SplineArea,
+                Color = Color.Green,
+            });
+
+            // BChart
+            BChart = CreateChart("BChart", "B color component");
+            tableLayoutPanel1.Controls.Add(BChart, 3, 5);
+            BChart.Dock = DockStyle.Fill;
+            BChart.Series.Add(new Series()
+            {
+                ChartType = SeriesChartType.SplineArea,
+                Color = Color.Blue,
+            });
+        }
+
+        private static Chart CreateChart(string chartName, string chartTitle)
         {
             var chart = new Chart()
             {
@@ -107,6 +126,45 @@ namespace View
 
             return chart;
         }
+
+        public void SetBezierChart(List<int> args, List<int> values, List<int> bezierPointArgs, List<int> bezierPointValues)
+        {
+            if (args.Count != values.Count || bezierPointArgs.Count != bezierPointValues.Count)
+                throw new InvalidDataException();
+
+            BezierChart.Series[0].Points.Clear();
+            BezierChart.Series[1].Points.Clear();
+            BezierChart.Series[2].Points.Clear();
+            for (int i = 0; i < args.Count; i++)
+            {
+                BezierChart.Series[0].Points.AddXY(args[i], values[i]);
+            }
+
+            for (int i = 0; i < bezierPointArgs.Count; i++)
+            {
+                BezierChart.Series[1].Points.AddXY(bezierPointArgs[i], bezierPointValues[i]);
+                BezierChart.Series[2].Points.AddXY(bezierPointArgs[i], bezierPointValues[i]);
+            }
+        }
+
+        public void SetRChart(List<int> args, List<int> values) => SetColorChart(RChart, args, values);
+
+        public void SetGChart(List<int> args, List<int> values) => SetColorChart(GChart, args, values);
+
+        public void SetBChart(List<int> args, List<int> values) => SetColorChart(BChart, args, values);
+
+        private static void SetColorChart(Chart chart, List<int> args, List<int> values)
+        {
+            if (args.Count != values.Count)
+                throw new InvalidDataException();
+
+            chart.Series[0].Points.Clear();
+            for (int i = 0; i < args.Count; i++)
+            {
+                chart.Series[0].Points.AddXY(args[i], values[i]);
+            }
+        }
+        #endregion Charts
 
         #region Canvas drawing
         public void SetPixel(int x, int y, Color color) => _fastDrawArea.SetPixel(x, Canvas.Height - y, color);

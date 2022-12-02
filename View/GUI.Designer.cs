@@ -38,7 +38,7 @@
             this.BrushButton = new System.Windows.Forms.Button();
             this.FiltersBox = new System.Windows.Forms.GroupBox();
             this.NoneButton = new System.Windows.Forms.RadioButton();
-            this.BrezierButton = new System.Windows.Forms.RadioButton();
+            this.BezierButton = new System.Windows.Forms.RadioButton();
             this.ContrastButton = new System.Windows.Forms.RadioButton();
             this.GammaButton = new System.Windows.Forms.RadioButton();
             this.BrightnessButton = new System.Windows.Forms.RadioButton();
@@ -151,7 +151,7 @@
             // FiltersBox
             // 
             this.FiltersBox.Controls.Add(this.NoneButton);
-            this.FiltersBox.Controls.Add(this.BrezierButton);
+            this.FiltersBox.Controls.Add(this.BezierButton);
             this.FiltersBox.Controls.Add(this.ContrastButton);
             this.FiltersBox.Controls.Add(this.GammaButton);
             this.FiltersBox.Controls.Add(this.BrightnessButton);
@@ -179,18 +179,18 @@
             this.NoneButton.UseVisualStyleBackColor = true;
             this.NoneButton.CheckedChanged += new System.EventHandler(this.OnFilterCheckedChanged);
             // 
-            // BrezierButton
+            // BezierButton
             // 
-            this.BrezierButton.AutoSize = true;
-            this.BrezierButton.Location = new System.Drawing.Point(6, 172);
-            this.BrezierButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.BrezierButton.Name = "BrezierButton";
-            this.BrezierButton.Size = new System.Drawing.Size(115, 24);
-            this.BrezierButton.TabIndex = 4;
-            this.BrezierButton.TabStop = true;
-            this.BrezierButton.Text = "Brezier curve";
-            this.BrezierButton.UseVisualStyleBackColor = true;
-            this.BrezierButton.CheckedChanged += new System.EventHandler(this.OnFilterCheckedChanged);
+            this.BezierButton.AutoSize = true;
+            this.BezierButton.Location = new System.Drawing.Point(6, 172);
+            this.BezierButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.BezierButton.Name = "BezierButton";
+            this.BezierButton.Size = new System.Drawing.Size(110, 24);
+            this.BezierButton.TabIndex = 4;
+            this.BezierButton.TabStop = true;
+            this.BezierButton.Text = "Bezier curve";
+            this.BezierButton.UseVisualStyleBackColor = true;
+            this.BezierButton.CheckedChanged += new System.EventHandler(this.OnFilterCheckedChanged);
             // 
             // ContrastButton
             // 
@@ -294,7 +294,7 @@
         private PictureBox Canvas;
         private GroupBox BrushShapesBox;
         private GroupBox FiltersBox;
-        private RadioButton BrezierButton;
+        private RadioButton BezierButton;
         private RadioButton ContrastButton;
         private RadioButton GammaButton;
         private RadioButton BrightnessButton;

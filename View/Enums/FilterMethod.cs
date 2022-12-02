@@ -7,6 +7,6 @@
         Brightness,
         GammaCorrection,
         Contrast,
-        BrezierCurve
+        BezierCurve
     }
 }

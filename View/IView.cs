@@ -18,5 +18,10 @@ namespace View
         void DrawCircle(PointF center, int radius, Color? color = null);
         void ClearArea();
         void RefreshArea();
+
+        void SetBezierChart(List<int> args, List<int> values, List<int> bezierPointArgs, List<int> bezierPointValues);
+        void SetRChart(List<int> args, List<int> values);
+        void SetGChart(List<int> args, List<int> values);
+        void SetBChart(List<int> args, List<int> values);
     }
 }
