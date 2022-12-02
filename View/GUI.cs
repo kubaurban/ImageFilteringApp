@@ -1,13 +1,23 @@
 using System.Windows.Forms.DataVisualization.Charting;
+using View.Enums;
 
 namespace View
 {
-    public partial class GUI : Form
+    public partial class GUI : Form, IView
     {
-        private Chart BrezierChart { get; set; } = default!;
-        private Chart RChart { get; set; } = default!;
-        private Chart GChart { get; set; } = default!;
-        private Chart BChart { get; set; } = default!;
+        private Chart BrezierChart { get; set; }
+        private Chart RChart { get; set; }
+        private Chart GChart { get; set; }
+        private Chart BChart { get; set; }
+
+        public event EventHandler BrushShapeChanged;
+        public event EventHandler FilterMethodChanged;
+
+        private BrushShape _currentBrushShape;
+        private FilterMethod _currentFilterMethod;
+
+        public BrushShape BrushShape => _currentBrushShape;
+        public FilterMethod FilterMethod => _currentFilterMethod;
 
         public GUI()
         {
@@ -58,12 +68,14 @@ namespace View
         private void InitDefaultState()
         {
             NegativeButton.Checked = true;
+            _currentFilterMethod = FilterMethod.Negative;
             RemovePolygonButton.Enabled = false;
             BrezierChart.Enabled = false;
             RChart.Enabled = false;
             GChart.Enabled = false;
             BChart.Enabled = false;
             BrushShapeLabel.Text = "Brush type: Paintbrush";
+            _currentBrushShape = BrushShape.Paintbrush;
         }
 
         private Chart CreateChart(string chartName, string chartTitle)
@@ -82,12 +94,19 @@ namespace View
 
         private void OnBrushButtonClick(object sender, EventArgs e)
         {
+            BrushShapeChanged?.Invoke(sender, e);
             BrushShapeLabel.Text = "Brush type: Paintbrush";
         }
 
         private void OnAddPolygonButtonClick(object sender, EventArgs e)
         {
+            BrushShapeChanged?.Invoke(sender, e);
             BrushShapeLabel.Text = "Brush type: Polygon";
+        }
+
+        private void OnFilterCheckedChanged(object sender, EventArgs e)
+        {
+            FilterMethodChanged?.Invoke(sender, e);
         }
     }
 }

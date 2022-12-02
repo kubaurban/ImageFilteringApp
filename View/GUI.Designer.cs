@@ -162,6 +162,7 @@
             this.BrezierButton.TabStop = true;
             this.BrezierButton.Text = "Brezier curve";
             this.BrezierButton.UseVisualStyleBackColor = true;
+            this.BrezierButton.CheckedChanged += new System.EventHandler(this.OnFilterCheckedChanged);
             // 
             // ContrastButton
             // 
@@ -174,6 +175,7 @@
             this.ContrastButton.TabStop = true;
             this.ContrastButton.Text = "Contrast";
             this.ContrastButton.UseVisualStyleBackColor = true;
+            this.ContrastButton.CheckedChanged += new System.EventHandler(this.OnFilterCheckedChanged);
             // 
             // GammaButton
             // 
@@ -186,6 +188,7 @@
             this.GammaButton.TabStop = true;
             this.GammaButton.Text = "Gamma correction";
             this.GammaButton.UseVisualStyleBackColor = true;
+            this.GammaButton.CheckedChanged += new System.EventHandler(this.OnFilterCheckedChanged);
             // 
             // BrightnessButton
             // 
@@ -198,6 +201,7 @@
             this.BrightnessButton.TabStop = true;
             this.BrightnessButton.Text = "Brightness";
             this.BrightnessButton.UseVisualStyleBackColor = true;
+            this.BrightnessButton.CheckedChanged += new System.EventHandler(this.OnFilterCheckedChanged);
             // 
             // NegativeButton
             // 
@@ -210,6 +214,7 @@
             this.NegativeButton.TabStop = true;
             this.NegativeButton.Text = "Negative";
             this.NegativeButton.UseVisualStyleBackColor = true;
+            this.NegativeButton.CheckedChanged += new System.EventHandler(this.OnFilterCheckedChanged);
             // 
             // LoadImageButton
             // 
