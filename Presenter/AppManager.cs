@@ -1,4 +1,6 @@
 ﻿using Model;
+using Presenter.Brushes;
+using Presenter.Filters;
 using View;
 
 namespace Presenter
@@ -52,6 +54,12 @@ namespace Presenter
                 }
                 View.UnlockDrawArea();
             }
+        }
+
+        private void DrawFilteredImage()
+        {
+            View.ModifyImage(new RawImage(LoadedImage!), new PaintBrush(100, new(View.CanvasSize.Width / 2, View.CanvasSize.Height / 2)), new NegativeFilter());
+            View.RefreshArea();
         }
 
         private void ComputeHistograms()
