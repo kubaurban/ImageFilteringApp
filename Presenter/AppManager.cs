@@ -30,7 +30,7 @@ namespace Presenter
         {
             if (LoadedImage is not null)
             {
-                DrawFilteredImage();
+                View.ModifyImage(LoadedImage!, new PaintBrush(100, e.Location), new NegativeFilter());
                 View.RefreshArea();
 
                 ComputeHistograms();
@@ -70,7 +70,6 @@ namespace Presenter
 
         private void DrawFilteredImage()
         {
-            View.ModifyImage(LoadedImage!, new PaintBrush(100, new(LoadedImage!.Width / 2, LoadedImage!.Height / 2)), new NegativeFilter());
         }
 
         private void ComputeHistograms()
