@@ -23,6 +23,18 @@ namespace Presenter
             View = view;
 
             View.LoadedFilenameChanged += HandleLoadedFilenameChanged;
+            View.CanvasClicked += HandleCanvasClicked;
+        }
+
+        private void HandleCanvasClicked(object? sender, MouseEventArgs e)
+        {
+            if (LoadedImage is not null)
+            {
+                DrawFilteredImage();
+                View.RefreshArea();
+
+                ComputeHistograms();
+            }
         }
 
         private void HandleLoadedFilenameChanged(object? sender, string filename)
@@ -59,7 +71,6 @@ namespace Presenter
         private void DrawFilteredImage()
         {
             View.ModifyImage(new RawImage(LoadedImage!), new PaintBrush(100, new(View.CanvasSize.Width / 2, View.CanvasSize.Height / 2)), new NegativeFilter());
-            View.RefreshArea();
         }
 
         private void ComputeHistograms()

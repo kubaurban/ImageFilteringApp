@@ -18,9 +18,13 @@ namespace Presenter.Brushes
             var center = Center!.Value;
             for (int y = center.Y - Radius; y < center.Y + Radius + 1; y++)
             {
-                var x_start = (int)Math.Round(Math.Sqrt(Math.Pow(Radius, 2) - Math.Pow(y - center.Y, 2)) + center.X);
-                var x_end = 2 * center.X - x_start;
-                for (int x = x_start; x < x_end + 1; x++)
+                var x0 = (int)Math.Round(Math.Sqrt(Math.Pow(Radius, 2) - Math.Pow(y - center.Y, 2)) + center.X);
+                var x1 = 2 * center.X - x0;
+                
+                if (x1 < x0)
+                    (x0, x1) = (x1, x0);
+
+                for (int x = x0; x < x1 + 1; x++)
                 {
                     if (x < 0 || y < 0 || x > image.Bitmap.Width - 1 || y > image.Bitmap.Height - 1)
                         continue;
