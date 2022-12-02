@@ -12,7 +12,12 @@ namespace View
         private Chart BChart { get; set; }
 
         public event EventHandler BrushShapeChanged;
-        public event EventHandler FilterMethodChanged;
+        public event EventHandler NoneFilterChecked;
+        public event EventHandler NegativeFilterChecked;
+        public event EventHandler BrightnessFilterChecked;
+        public event EventHandler GammaCorrectionFilterChecked;
+        public event EventHandler ContrastFilterChecked;
+        public event EventHandler BezierFilterChecked;
         public event EventHandler ApplyPolygonFilter;
         public event MouseEventHandler CanvasClicked;
         public event MouseEventHandler CanvasClickedMouseMoved;
@@ -238,10 +243,12 @@ namespace View
             BrushShapeLabel.Text = "Brush type: Polygon";
         }
 
-        private void OnFilterCheckedChanged(object sender, EventArgs e)
-        {
-            FilterMethodChanged?.Invoke(sender, e);
-        }
+        private void OnNoneFilterCheckedChanged(object sender, EventArgs e) => NoneFilterChecked?.Invoke(sender, e);
+        private void OnNegativeFilterCheckedChanged(object sender, EventArgs e) => NegativeFilterChecked?.Invoke(sender, e);
+        private void OnBrightnessFilterCheckedChanged(object sender, EventArgs e) => BrightnessFilterChecked?.Invoke(sender, e);
+        private void OnGammaCorrectionFilterCheckedChanged(object sender, EventArgs e) => GammaCorrectionFilterChecked?.Invoke(sender, e);
+        private void OnContrastFilterCheckedChanged(object sender, EventArgs e) => ContrastFilterChecked?.Invoke(sender, e);
+        private void OnBezierFilterCheckedChanged(object sender, EventArgs e) => BezierFilterChecked?.Invoke(sender, e);
 
         private void OnLoadImageButtonClick(object sender, EventArgs e)
         {

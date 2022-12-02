@@ -5,7 +5,12 @@ namespace View
     public interface IView
     {
         event EventHandler BrushShapeChanged;
-        event EventHandler FilterMethodChanged;
+        event EventHandler NoneFilterChecked;
+        event EventHandler NegativeFilterChecked;
+        event EventHandler BrightnessFilterChecked;
+        event EventHandler GammaCorrectionFilterChecked;
+        event EventHandler ContrastFilterChecked;
+        event EventHandler BezierFilterChecked;
         event EventHandler ApplyPolygonFilter;
         event EventHandler<string> LoadedFilenameChanged;
         event MouseEventHandler CanvasClicked;

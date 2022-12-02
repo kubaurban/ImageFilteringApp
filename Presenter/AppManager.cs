@@ -9,8 +9,18 @@ namespace Presenter
     {
         private readonly List<KeyValuePair<int, int>> _emptyQuantity;
 
+        #region Filters
+        private Lazy<NoneFilter> _noneFilter;
+        private Lazy<NegativeFilter> _negativeFilter;
+        private Lazy<BrightnessFilter> _brightnessFilter;
+        private Lazy<GammaCorrectionFilter> _gammaCorrectionFilter;
+        private Lazy<ContrastFilter> _contrastFilter;
+        private Lazy<BezierFilter> _bezierFilter;
+        #endregion Filters
+
         private IView View { get; }
         private LoadedImage? LoadedImage { get; set; }
+        private IFilter Filter { get; set; }
 
         public Form? GetForm() => View as Form;
 
@@ -20,15 +30,29 @@ namespace Presenter
             for (int i = 0; i < 256; ++i)
                 _emptyQuantity.Add(new KeyValuePair<int, int>(i, 0));
 
+            _noneFilter = new Lazy<NoneFilter>(() => new NoneFilter());
+            _negativeFilter = new Lazy<NegativeFilter>(() => new NegativeFilter());
+            _brightnessFilter = new Lazy<BrightnessFilter>(() => new BrightnessFilter());
+            _gammaCorrectionFilter = new Lazy<GammaCorrectionFilter>(() => new GammaCorrectionFilter());
+            _contrastFilter = new Lazy<ContrastFilter>(() => new ContrastFilter());
+            _bezierFilter = new Lazy<BezierFilter>(() => new BezierFilter());
+
             View = view;
+            Filter = new NoneFilter();
 
             View.LoadedFilenameChanged += HandleLoadedFilenameChanged;
             View.CanvasClicked += HandleCanvasClicked;
             View.CanvasClickedMouseMoved += HandleCanvasClickedMouseMoved;
-            View.CanvasClickedMouseUp += OnCanvasClickedMouseUp;
+            View.CanvasClickedMouseUp += HandleCanvasClickedMouseUp;
+            View.NoneFilterChecked += HandleNoneFilterChecked;
+            View.NegativeFilterChecked += HandleNegativeFilterChecked;
+            View.BrightnessFilterChecked += HandleBrightnessFilterChecked;
+            View.GammaCorrectionFilterChecked += HandleGammaCorrectionFilterChecked;
+            View.ContrastFilterChecked += HandlenContrastFilterChecked;
+            View.BezierFilterChecked += HandleBezierFilterChecked;
         }
 
-        private void OnCanvasClickedMouseUp(object? sender, MouseEventArgs e) => LoadedImage?.Untouch();
+        private void HandleCanvasClickedMouseUp(object? sender, MouseEventArgs e) => LoadedImage?.Untouch();
 
         private void HandleCanvasClickedMouseMoved(object? sender, MouseEventArgs e)
         {
@@ -63,6 +87,18 @@ namespace Presenter
             ComputeHistograms();
         }
 
+        private void HandleNoneFilterChecked(object? sender, EventArgs e) => Filter = _noneFilter.Value;
+
+        private void HandleNegativeFilterChecked(object? sender, EventArgs e) => Filter = _negativeFilter.Value;
+
+        private void HandleBrightnessFilterChecked(object? sender, EventArgs e) => Filter = _brightnessFilter.Value;
+
+        private void HandleGammaCorrectionFilterChecked(object? sender, EventArgs e) => Filter = _gammaCorrectionFilter.Value;
+
+        private void HandlenContrastFilterChecked(object? sender, EventArgs e) => Filter = _contrastFilter.Value;
+
+        private void HandleBezierFilterChecked(object? sender, EventArgs e) => Filter = _bezierFilter.Value;
+
         private void LoadImage(string path)
         {
             var bitmap = new Bitmap(path);
@@ -85,7 +121,7 @@ namespace Presenter
 
         private void DrawFilteredImage(Point click)
         {
-            View.ModifyImage(LoadedImage!, new PaintBrush(100, click), new NegativeFilter());
+            View.ModifyImage(LoadedImage!, new PaintBrush(100, click), Filter);
         }
 
         private void ComputeHistograms()

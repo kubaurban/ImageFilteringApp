@@ -180,7 +180,7 @@
             this.NoneButton.TabStop = true;
             this.NoneButton.Text = "None";
             this.NoneButton.UseVisualStyleBackColor = true;
-            this.NoneButton.CheckedChanged += new System.EventHandler(this.OnFilterCheckedChanged);
+            this.NoneButton.CheckedChanged += new System.EventHandler(this.OnNoneFilterCheckedChanged);
             // 
             // BezierButton
             // 
@@ -193,7 +193,7 @@
             this.BezierButton.TabStop = true;
             this.BezierButton.Text = "Bezier curve";
             this.BezierButton.UseVisualStyleBackColor = true;
-            this.BezierButton.CheckedChanged += new System.EventHandler(this.OnFilterCheckedChanged);
+            this.BezierButton.CheckedChanged += new System.EventHandler(this.OnBezierFilterCheckedChanged);
             // 
             // ContrastButton
             // 
@@ -206,7 +206,7 @@
             this.ContrastButton.TabStop = true;
             this.ContrastButton.Text = "Contrast";
             this.ContrastButton.UseVisualStyleBackColor = true;
-            this.ContrastButton.CheckedChanged += new System.EventHandler(this.OnFilterCheckedChanged);
+            this.ContrastButton.CheckedChanged += new System.EventHandler(this.OnContrastFilterCheckedChanged);
             // 
             // GammaButton
             // 
@@ -219,7 +219,7 @@
             this.GammaButton.TabStop = true;
             this.GammaButton.Text = "Gamma correction";
             this.GammaButton.UseVisualStyleBackColor = true;
-            this.GammaButton.CheckedChanged += new System.EventHandler(this.OnFilterCheckedChanged);
+            this.GammaButton.CheckedChanged += new System.EventHandler(this.OnGammaCorrectionFilterCheckedChanged);
             // 
             // BrightnessButton
             // 
@@ -232,7 +232,7 @@
             this.BrightnessButton.TabStop = true;
             this.BrightnessButton.Text = "Brightness";
             this.BrightnessButton.UseVisualStyleBackColor = true;
-            this.BrightnessButton.CheckedChanged += new System.EventHandler(this.OnFilterCheckedChanged);
+            this.BrightnessButton.CheckedChanged += new System.EventHandler(this.OnBrightnessFilterCheckedChanged);
             // 
             // NegativeButton
             // 
@@ -245,7 +245,7 @@
             this.NegativeButton.TabStop = true;
             this.NegativeButton.Text = "Negative";
             this.NegativeButton.UseVisualStyleBackColor = true;
-            this.NegativeButton.CheckedChanged += new System.EventHandler(this.OnFilterCheckedChanged);
+            this.NegativeButton.CheckedChanged += new System.EventHandler(this.OnNegativeFilterCheckedChanged);
             // 
             // LoadImageButton
             // 
