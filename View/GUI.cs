@@ -21,12 +21,15 @@ namespace View
         private Bitmap _drawArea;
         private FastBitmap _fastDrawArea;
         private int _vertexSize;
+        private int _canvasMargin;
         private Color _defaultColor;
 
         private Graphics Graphics => Graphics.FromImage(_drawArea);
 
         public BrushShape BrushShape => _currentBrushShape;
         public FilterMethod FilterMethod => _currentFilterMethod;
+
+        public Size CanvasSize => new(Canvas.Width - 2 * _canvasMargin, Canvas.Height - 2 * _canvasMargin);
 
         public GUI()
         {
@@ -42,6 +45,7 @@ namespace View
 
         private void InitDefaultState()
         {
+            _canvasMargin = 10;
             _vertexSize = 5;
             _defaultColor = Color.Black;
             NoneButton.Checked = true;
@@ -167,24 +171,32 @@ namespace View
         #endregion Charts
 
         #region Canvas drawing
-        public void SetPixel(int x, int y, Color color) => _fastDrawArea.SetPixel(x, Canvas.Height - y, color);
+        private PointF Offset(PointF p) => new PointF(p.X + _canvasMargin, p.Y + _canvasMargin);
+        public void SetPixel(int x, int y, Color color) => _fastDrawArea.SetPixel(x + _canvasMargin, y + _canvasMargin, color);
 
         public void DrawVertex(PointF center, Color? color = null)
         {
+            var p = Offset(center);
+
             using var g = Graphics;
-            g.DrawRectangle(new(color ?? _defaultColor), center.X - _vertexSize, Canvas.Height - center.Y + _vertexSize, _vertexSize, _vertexSize);
+            g.DrawRectangle(new(color ?? _defaultColor), p.X - _vertexSize, p.Y - _vertexSize, _vertexSize, _vertexSize);
         }
 
         public void DrawLine(PointF start, PointF end, Color? color = null)
         {
+            var s = Offset(start);
+            var e = Offset(end);
+
             using var g = Graphics;
-            g.DrawLine(new(color ?? _defaultColor), start.X, Canvas.Height - start.Y, end.X, Canvas.Height - end.Y);
+            g.DrawLine(new(color ?? _defaultColor), s.X, s.Y, e.X, e.Y);
         }
 
         public void DrawCircle(PointF center, int radius, Color? color = null)
         {
+            var p = Offset(center);
+
             using var g = Graphics;
-            g.DrawEllipse(new(color ?? _defaultColor), center.X - radius, Canvas.Height - center.Y + radius, radius * 2, radius * 2);
+            g.DrawEllipse(new(color ?? _defaultColor), p.X - radius, p.Y - radius, radius * 2, radius * 2);
         }
 
         public void ClearArea()
@@ -194,6 +206,10 @@ namespace View
         }
 
         public void RefreshArea() => Canvas.Refresh();
+
+        public void LockDrawArea() => _ = _fastDrawArea.Lock();
+
+        public void UnlockDrawArea() => _fastDrawArea.Unlock();
         #endregion Canvas drawing
 
         #region Handlers
