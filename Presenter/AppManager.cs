@@ -33,9 +33,9 @@ namespace Presenter
 
             _noneFilter = new Lazy<NoneFilter>(() => new NoneFilter());
             _negativeFilter = new Lazy<NegativeFilter>(() => new NegativeFilter());
-            _brightnessFilter = new Lazy<BrightnessFilter>(() => new BrightnessFilter());
-            _gammaCorrectionFilter = new Lazy<GammaCorrectionFilter>(() => new GammaCorrectionFilter());
-            _contrastFilter = new Lazy<ContrastFilter>(() => new ContrastFilter());
+            _brightnessFilter = new Lazy<BrightnessFilter>(() => new BrightnessFilter(50));
+            _gammaCorrectionFilter = new Lazy<GammaCorrectionFilter>(() => new GammaCorrectionFilter(0.5));
+            _contrastFilter = new Lazy<ContrastFilter>(() => new ContrastFilter(100));
             _bezierFilter = new Lazy<BezierFilter>(() => new BezierFilter());
 
             View = view;
