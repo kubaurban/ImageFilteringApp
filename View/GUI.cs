@@ -95,6 +95,9 @@ namespace View
             BezierChart.ChartAreas[0].AxisX.Minimum = 0;
             BezierChart.ChartAreas[0].AxisX.Maximum = 255;
 
+            BezierChart.ChartAreas[0].AxisY.Interval = 15;
+            BezierChart.ChartAreas[0].AxisY.Maximum = 255;
+
             // RChart
             RChart = CreateChart("RChart", "R color component");
             tableLayoutPanel1.Controls.Add(RChart, 3, 0);
