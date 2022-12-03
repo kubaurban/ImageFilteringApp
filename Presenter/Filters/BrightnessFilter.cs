@@ -8,6 +8,6 @@ namespace Presenter.Filters
 
         public BrightnessFilter(int modifier) => Modifier = modifier;
 
-        public Color Filter(Color color) => Color.FromArgb(color.R + Modifier, color.G + Modifier, color.B + Modifier).Truncate();
+        public Color Filter(Color color) => (color.R + Modifier, color.G + Modifier, color.B + Modifier).Truncate();
     }
 }

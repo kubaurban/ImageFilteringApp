@@ -2,7 +2,7 @@
 {
     internal static class ColorExtension
     {
-        internal static Color Truncate(this Color c) => Color.FromArgb(Truncate(c.R), Truncate(c.G), Truncate(c.B));
+        internal static Color Truncate(this (int R, int G, int B) c) => Color.FromArgb(Truncate(c.R), Truncate(c.G), Truncate(c.B));
 
         private static int Truncate(int i)
         {

@@ -9,7 +9,7 @@ namespace Presenter.Filters
 
         public ContrastFilter(int contrast) => Contrast = contrast;
 
-        public Color Filter(Color color) => Color.FromArgb(Filter(color.R), Filter(color.G), Filter(color.B)).Truncate();
+        public Color Filter(Color color) => (Filter(color.R), Filter(color.G), Filter(color.B)).Truncate();
 
         private int Filter(int i) => ContrastFactor * (i - 128) + 128;
     }
