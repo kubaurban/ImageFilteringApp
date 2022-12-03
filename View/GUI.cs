@@ -6,6 +6,10 @@ namespace View
 {
     public partial class GUI : Form, IView
     {
+        private const string BEZIER_CURVE_SERIES = "BezierCurve";
+        private const string BEZIER_POINTS_SERIES = "BezierPoints";
+        private const string BEZIER_POINTS_CURVE_SERIES = "BezierPointsCurve";
+
         private Chart BezierChart { get; set; }
         private Chart RChart { get; set; }
         private Chart GChart { get; set; }
@@ -19,6 +23,7 @@ namespace View
         public event EventHandler ContrastFilterChecked;
         public event EventHandler BezierFilterChecked;
         public event EventHandler ApplyPolygonFilter;
+        public event EventHandler<(int, Point)> BezierPointMoved;
         public event MouseEventHandler CanvasClicked;
         public event MouseEventHandler CanvasClickedMouseMoved;
         public event MouseEventHandler CanvasClickedMouseUp;
@@ -34,6 +39,7 @@ namespace View
 
         private Graphics Graphics => Graphics.FromImage(_drawArea);
         private bool IsCanvasClicked { get; set; }
+        private int MovedBezierPointIdx { get; set; }
 
         public BrushShape BrushShape => _currentBrushShape;
         public FilterMethod FilterMethod => _currentFilterMethod;
@@ -61,12 +67,12 @@ namespace View
             _currentFilterMethod = FilterMethod.None;
             RemovePolygonButton.Enabled = false;
             ApplyButton.Enabled = false;
-            BezierChart.Enabled = false;
             RChart.Enabled = false;
             GChart.Enabled = false;
             BChart.Enabled = false;
             BrushShapeLabel.Text = "Brush type: Paintbrush";
             _currentBrushShape = BrushShape.Paintbrush;
+            MovedBezierPointIdx = -1;
         }
 
         #region Charts
@@ -79,24 +85,53 @@ namespace View
             BezierChart.Dock = DockStyle.Fill;
             BezierChart.Series.Add(new Series()
             {
+                Name = BEZIER_CURVE_SERIES,
                 ChartType = SeriesChartType.Spline,
                 Color = Color.Blue,
             });
             BezierChart.Series.Add(new Series()
             {
-                ChartType = SeriesChartType.Point,
+                Name = BEZIER_POINTS_CURVE_SERIES,
+                ChartType = SeriesChartType.Line,
                 Color = Color.DarkGray,
             });
             BezierChart.Series.Add(new Series()
             {
-                ChartType = SeriesChartType.Line,
+                Name = BEZIER_POINTS_SERIES,
+                MarkerSize = 10,
+                ChartType = SeriesChartType.Point,
                 Color = Color.DarkGray,
             });
-            BezierChart.ChartAreas[0].AxisX.Minimum = 0;
-            BezierChart.ChartAreas[0].AxisX.Maximum = 255;
+            BezierChart.ChartAreas[0].AxisX.Interval = 15;
+            BezierChart.ChartAreas[0].AxisX.Minimum = -15;
+            BezierChart.ChartAreas[0].AxisX.Maximum = 270;
 
             BezierChart.ChartAreas[0].AxisY.Interval = 15;
-            BezierChart.ChartAreas[0].AxisY.Maximum = 255;
+            BezierChart.ChartAreas[0].AxisY.Minimum = -90;
+            BezierChart.ChartAreas[0].AxisY.Maximum = 345;
+
+            int startOffset = -2;
+            int endOffset = 2;
+            for (int i = 0; i < 256; i += (int)BezierChart.ChartAreas[0].AxisX.Interval)
+            {
+                var label = new CustomLabel(startOffset, endOffset, i.ToString(), 0, LabelMarkStyle.None);
+                BezierChart.ChartAreas[0].AxisX.CustomLabels.Add(label);
+                startOffset += (int)BezierChart.ChartAreas[0].AxisX.Interval;
+                endOffset += (int)BezierChart.ChartAreas[0].AxisX.Interval;
+            }
+            startOffset = -2;
+            endOffset = 2;
+            for (int i = 0; i < 256; i += (int)BezierChart.ChartAreas[0].AxisY.Interval)
+            {
+                var label = new CustomLabel(startOffset, endOffset, i.ToString(), 0, LabelMarkStyle.None);
+                BezierChart.ChartAreas[0].AxisY.CustomLabels.Add(label);
+                startOffset += (int)BezierChart.ChartAreas[0].AxisY.Interval;
+                endOffset += (int)BezierChart.ChartAreas[0].AxisY.Interval;
+            }
+
+            BezierChart.MouseDown += OnBezierChartMouseDown;
+            BezierChart.MouseUp += OnBezierChartMouseUp;
+            BezierChart.MouseMove += OnBezierChartMouseMove;
 
             // RChart
             RChart = CreateChart("RChart", "R color component");
@@ -151,23 +186,27 @@ namespace View
             return chart;
         }
 
-        public void SetBezierChart(List<int> args, List<int> values, List<int> bezierPointArgs, List<int> bezierPointValues)
+        public void SetBezierCurve(List<int> args, List<int> values)
         {
-            if (args.Count != values.Count || bezierPointArgs.Count != bezierPointValues.Count)
+            if (args.Count != values.Count)
                 throw new InvalidDataException();
 
-            BezierChart.Series[0].Points.Clear();
-            BezierChart.Series[1].Points.Clear();
-            BezierChart.Series[2].Points.Clear();
+            BezierChart.Series[BEZIER_CURVE_SERIES].Points.Clear();
             for (int i = 0; i < args.Count; ++i)
             {
-                BezierChart.Series[0].Points.AddXY(args[i], values[i]);
+                BezierChart.Series[BEZIER_CURVE_SERIES].Points.AddXY(args[i], values[i]);
             }
+        }
 
-            for (int i = 0; i < bezierPointArgs.Count; ++i)
+        public void SetBezierPoints(List<int> args, List<int> values)
+        {
+            if (args.Count != values.Count)
+                throw new InvalidDataException();
+
+            for (int i = 0; i < args.Count; ++i)
             {
-                BezierChart.Series[1].Points.AddXY(bezierPointArgs[i], bezierPointValues[i]);
-                BezierChart.Series[2].Points.AddXY(bezierPointArgs[i], bezierPointValues[i]);
+                BezierChart.Series[BEZIER_POINTS_CURVE_SERIES].Points.AddXY(args[i], values[i]);
+                BezierChart.Series[BEZIER_POINTS_SERIES].Points.AddXY(args[i], values[i]);
             }
         }
 
@@ -246,12 +285,56 @@ namespace View
             BrushShapeLabel.Text = "Brush type: Polygon";
         }
 
-        private void OnNoneFilterCheckedChanged(object sender, EventArgs e) => NoneFilterChecked?.Invoke(sender, e);
-        private void OnNegativeFilterCheckedChanged(object sender, EventArgs e) => NegativeFilterChecked?.Invoke(sender, e);
-        private void OnBrightnessFilterCheckedChanged(object sender, EventArgs e) => BrightnessFilterChecked?.Invoke(sender, e);
-        private void OnGammaCorrectionFilterCheckedChanged(object sender, EventArgs e) => GammaCorrectionFilterChecked?.Invoke(sender, e);
-        private void OnContrastFilterCheckedChanged(object sender, EventArgs e) => ContrastFilterChecked?.Invoke(sender, e);
-        private void OnBezierFilterCheckedChanged(object sender, EventArgs e) => BezierFilterChecked?.Invoke(sender, e);
+        private void OnNoneFilterCheckedChanged(object sender, EventArgs e)
+        {
+            if (NoneButton.Checked)
+            {
+                _currentFilterMethod = FilterMethod.None;
+                NoneFilterChecked?.Invoke(sender, e);
+            }
+        }
+
+        private void OnNegativeFilterCheckedChanged(object sender, EventArgs e)
+        {
+            if (NegativeButton.Checked)
+            {
+                _currentFilterMethod = FilterMethod.Negative;
+                NegativeFilterChecked?.Invoke(sender, e);
+            }
+        }
+
+        private void OnBrightnessFilterCheckedChanged(object sender, EventArgs e)
+        {
+            if (BrightnessButton.Checked)
+            {
+                _currentFilterMethod = FilterMethod.Brightness;
+                BrightnessFilterChecked?.Invoke(sender, e);
+            }
+        }
+        private void OnGammaCorrectionFilterCheckedChanged(object sender, EventArgs e)
+        {
+            if (GammaButton.Checked)
+            {
+                _currentFilterMethod = FilterMethod.GammaCorrection;
+                GammaCorrectionFilterChecked?.Invoke(sender, e);
+            }
+        }
+        private void OnContrastFilterCheckedChanged(object sender, EventArgs e)
+        {
+            if (ContrastButton.Checked)
+            {
+                _currentFilterMethod = FilterMethod.Contrast;
+                ContrastFilterChecked?.Invoke(sender, e);
+            }
+        }
+        private void OnBezierFilterCheckedChanged(object sender, EventArgs e)
+        {
+            if (BezierButton.Checked)
+            {
+                _currentFilterMethod = FilterMethod.BezierCurve;
+                BezierFilterChecked?.Invoke(sender, e);
+            }
+        }
 
         private void OnLoadImageButtonClick(object sender, EventArgs e)
         {
@@ -289,6 +372,66 @@ namespace View
             if (IsCanvasClicked)
             {
                 CanvasClickedMouseMoved?.Invoke(sender, new MouseEventArgs(e.Button, e.Clicks, e.X - _canvasMargin, e.Y - _canvasMargin, e.Delta));
+            }
+        }
+
+        private void OnBezierChartMouseMove(object sender, MouseEventArgs e)
+        {
+            // https://stackoverflow.com/questions/36690301/how-to-drag-a-datapoint-and-move-it-in-a-chart-control
+            if (FilterMethod == FilterMethod.BezierCurve && MovedBezierPointIdx > -1)
+            {
+                var ca = BezierChart.ChartAreas[0];
+                var ax = ca.AxisX;
+                var ay = ca.AxisY;
+
+                try
+                {
+                    var newX = (int)ax.PixelPositionToValue(e.X);
+
+                    if (MovedBezierPointIdx == 0)
+                        newX = 0;
+                    else if (MovedBezierPointIdx == 3)
+                        newX = 255;
+                    else if (newX > 255)
+                        newX = 255;
+                    else if (newX < 0)
+                        newX = 0;
+
+                    var newY = (int)ay.PixelPositionToValue(e.Y);
+
+                    if (newY < 0 && (MovedBezierPointIdx == 0 || MovedBezierPointIdx == 3))
+                        newY = 0;
+                    else if (newY > 255 && (MovedBezierPointIdx == 0 || MovedBezierPointIdx == 3))
+                        newY = 255;
+
+                    if (newY > BezierChart.ChartAreas[0].AxisY.Maximum)
+                        newY = (int)BezierChart.ChartAreas[0].AxisY.Maximum;
+                    if (newY < BezierChart.ChartAreas[0].AxisY.Minimum)
+                        newY = (int)BezierChart.ChartAreas[0].AxisY.Minimum;
+
+                    BezierChart.Series[BEZIER_POINTS_CURVE_SERIES].Points.InsertXY(MovedBezierPointIdx, newX, newY);
+                    BezierChart.Series[BEZIER_POINTS_CURVE_SERIES].Points.RemoveAt(MovedBezierPointIdx + 1);
+                    BezierChart.Series[BEZIER_POINTS_SERIES].Points.InsertXY(MovedBezierPointIdx, newX, newY);
+                    BezierChart.Series[BEZIER_POINTS_SERIES].Points.RemoveAt(MovedBezierPointIdx + 1);
+
+                    BezierPointMoved?.Invoke(sender, (MovedBezierPointIdx, new Point(newX, newY)));
+                }
+                catch (ArgumentException) { }
+            }
+        }
+
+        private void OnBezierChartMouseUp(object sender, MouseEventArgs e) => MovedBezierPointIdx = -1;
+
+        private void OnBezierChartMouseDown(object sender, MouseEventArgs e)
+        {
+            if (FilterMethod == FilterMethod.BezierCurve)
+            {
+                // https://stackoverflow.com/questions/36690301/how-to-drag-a-datapoint-and-move-it-in-a-chart-control
+                var hit = BezierChart.HitTest(e.X, e.Y);
+                if (hit?.Series?.Name == BEZIER_POINTS_SERIES)
+                {
+                    MovedBezierPointIdx = hit.PointIndex;
+                }
             }
         }
         #endregion Handlers

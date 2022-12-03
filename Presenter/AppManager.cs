@@ -39,8 +39,15 @@ namespace Presenter
             _bezierFilter = new Lazy<BezierFilter>(() => new BezierFilter());
 
             View = view;
-            Filter = new NoneFilter();
 
+            Filter = new NoneFilter();
+            View.SetBezierPoints(BezierFilter.DefaultBezierPointsArgs, BezierFilter.DefaultBezierPointsValues);
+
+            InitViewHandlers();
+        }
+
+        private void InitViewHandlers()
+        {
             View.LoadedFilenameChanged += HandleLoadedFilenameChanged;
             View.CanvasClicked += HandleCanvasClicked;
             View.CanvasClickedMouseMoved += HandleCanvasClickedMouseMoved;
@@ -51,6 +58,17 @@ namespace Presenter
             View.GammaCorrectionFilterChecked += HandleGammaCorrectionFilterChecked;
             View.ContrastFilterChecked += HandlenContrastFilterChecked;
             View.BezierFilterChecked += HandleBezierFilterChecked;
+            View.BezierPointMoved += HandleBezierPointMoved;
+        }
+
+        #region Handlers
+        private void HandleBezierPointMoved(object? sender, (int idx, Point newPoint) e)
+        {
+            if (Filter is BezierFilter bezierFilter)
+            {
+                bezierFilter.SetBezierPoint(e.idx, e.newPoint);
+                View.SetBezierCurve(bezierFilter.BezierArgs, bezierFilter.BezierValues);
+            }
         }
 
         private void HandleCanvasClickedMouseUp(object? sender, MouseEventArgs e) => LoadedImage?.Untouch();
@@ -102,8 +120,9 @@ namespace Presenter
         {
             var bezierFilter = _bezierFilter.Value;
             Filter = bezierFilter;
-            View.SetBezierChart(bezierFilter.BezierArgs, bezierFilter.BezierValues, bezierFilter.BezierPointsArgs, bezierFilter.BezierPointsArgs);
+            View.SetBezierCurve(bezierFilter.BezierArgs, bezierFilter.BezierValues);
         }
+        #endregion Handlers
 
         private void LoadImage(string path)
         {

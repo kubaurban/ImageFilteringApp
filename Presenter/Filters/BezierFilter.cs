@@ -4,14 +4,15 @@ namespace Presenter.Filters
 {
     internal class BezierFilter : IFilter
     {
+        private static readonly List<Point> _defaultBezierPoints = new() { new(0, 0), new(85, 85), new(170, 170), new(255, 255) };
         private readonly List<KeyValuePair<int, int>> _defaultBezier;
         private readonly List<Point> _bezierPoints;
 
         private Dictionary<int, int> BezierCurve { get; }
         private bool BezierComputed { get; set; }
 
-        public List<int> BezierPointsArgs => _bezierPoints.Select(p => p.X).ToList();
-        public List<int> BezierPointsValues => _bezierPoints.Select(p => p.Y).ToList();
+        public static List<int> DefaultBezierPointsArgs => _defaultBezierPoints.Select(p => p.X).ToList();
+        public static List<int> DefaultBezierPointsValues => _defaultBezierPoints.Select(p => p.Y).ToList();
         public List<int> BezierArgs
         {
             get
@@ -36,7 +37,7 @@ namespace Presenter.Filters
             _defaultBezier = new List<KeyValuePair<int, int>>(256);
             for (int i = 0; i < 256; ++i)
                 _defaultBezier.Add(new KeyValuePair<int, int>(i, i));
-            _bezierPoints = new List<Point>() { new(0, 0), new(85, 85), new(170, 170), new(255, 255) };
+            _bezierPoints = new List<Point>(_defaultBezierPoints);
 
             BezierCurve = new Dictionary<int, int>(_defaultBezier);
             BezierComputed = true;
@@ -50,16 +51,12 @@ namespace Presenter.Filters
             return Color.FromArgb(BezierCurve[color.R], BezierCurve[color.G], BezierCurve[color.B]);
         }
 
-        public void MoveBezierPoint(int idx, Vector2 move)
+        public void SetBezierPoint(int idx, Point newPoint)
         {
             if (idx < 0 || idx > 3)
                 throw new InvalidDataException();
 
-            if (idx == 0 || idx == 3)
-                move.X = 0;
-
-            var oldPoint = _bezierPoints[idx];
-            _bezierPoints[idx] = new Point(oldPoint.X + (int)move.X, oldPoint.Y + (int)move.Y);
+            _bezierPoints[idx] = newPoint;
 
             BezierComputed = false;
         }
@@ -85,6 +82,12 @@ namespace Presenter.Filters
                 var t = d * i;
                 var Px = (int)Math.Round(Horner(new float[] { A3.X, A2.X, A1.X, A0.X }, t));
                 var Py = (int)Math.Round(Horner(new float[] { A3.Y, A2.Y, A1.Y, A0.Y }, t));
+
+                if (Py > 255)
+                    Py = 255;
+                else if (Py < 0)
+                    Py = 0;
+
                 BezierCurve[Px] = Py;
             }
             BezierComputed = true;

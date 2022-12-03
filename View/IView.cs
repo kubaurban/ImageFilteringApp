@@ -12,6 +12,7 @@ namespace View
         event EventHandler ContrastFilterChecked;
         event EventHandler BezierFilterChecked;
         event EventHandler ApplyPolygonFilter;
+        event EventHandler<(int, Point)> BezierPointMoved; 
         event EventHandler<string> LoadedFilenameChanged;
         event MouseEventHandler CanvasClicked;
         event MouseEventHandler CanvasClickedMouseMoved;
@@ -31,7 +32,8 @@ namespace View
         void LockDrawArea();
         void UnlockDrawArea();
 
-        void SetBezierChart(List<int> args, List<int> values, List<int> bezierPointArgs, List<int> bezierPointValues);
+        void SetBezierCurve(List<int> args, List<int> values);
+        void SetBezierPoints(List<int> args, List<int> values);
         void SetRChart(List<int> args, List<int> values);
         void SetGChart(List<int> args, List<int> values);
         void SetBChart(List<int> args, List<int> values);
