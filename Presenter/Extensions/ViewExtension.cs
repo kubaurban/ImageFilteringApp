@@ -3,7 +3,7 @@ using Presenter.Brushes;
 using Presenter.Filters;
 using View;
 
-namespace Presenter
+namespace Presenter.Extensions
 {
     internal static class ViewExtension
     {
@@ -18,7 +18,7 @@ namespace Presenter
                     var filteredColor = filter.Filter(pixel.Color);
 
                     image.SetPixel(pixel.X, pixel.Y, filteredColor);
-                    view.SetPixel(pixel.X, pixel.Y, filteredColor); 
+                    view.SetPixel(pixel.X, pixel.Y, filteredColor);
                 }
             }
             view.UnlockDrawArea();

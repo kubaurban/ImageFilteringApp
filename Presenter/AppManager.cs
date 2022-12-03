@@ -1,5 +1,6 @@
 ﻿using Model;
 using Presenter.Brushes;
+using Presenter.Extensions;
 using Presenter.Filters;
 using View;
 
