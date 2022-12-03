@@ -9,6 +9,6 @@
 
         public Color Filter(Color color) => Color.FromArgb(Filter(color.R), Filter(color.G), Filter(color.B));
 
-        private int Filter(int i) => (int)(Math.Pow(i / 255, GammaCorrection) * 255);
+        private int Filter(int i) => (int)(Math.Pow((double)i / 255, GammaCorrection) * 255);
     }
 }
