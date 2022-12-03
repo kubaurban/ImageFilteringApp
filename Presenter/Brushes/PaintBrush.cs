@@ -2,20 +2,21 @@
 
 namespace Presenter.Brushes
 {
-    internal class PaintBrush : IBrush
+    internal class PaintBrush : ShapedBrush
     {
-        public Point? Center { get; set; }
         public int Radius { get; set; }
 
         public PaintBrush(int radius, Point? center = null)
         {
-            Center = center;
+            if (center is not null)
+                AddBrushPoint(center.Value);
             Radius = radius;
         }
 
-        public IEnumerable<Pixel> GetBrushPixels(LoadedImage image)
+        public override IEnumerable<Pixel> GetBrushPixels(LoadedImage image)
         {
-            var center = Center!.Value;
+            var center = BrushPoints.First();
+
             for (int y = center.Y - Radius; y < center.Y + Radius + 1; ++y)
             {
                 var x0 = (int)Math.Round(Math.Sqrt(Math.Pow(Radius, 2) - Math.Pow(y - center.Y, 2)) + center.X);

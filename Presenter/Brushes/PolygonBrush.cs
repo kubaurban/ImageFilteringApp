@@ -2,9 +2,9 @@
 
 namespace Presenter.Brushes
 {
-    internal class PolygonBrush : IBrush
+    internal class PolygonBrush : ShapedBrush
     {
-        public IEnumerable<Pixel> GetBrushPixels(LoadedImage image)
+        public override IEnumerable<Pixel> GetBrushPixels(LoadedImage image)
         {
             throw new NotImplementedException();
         }
