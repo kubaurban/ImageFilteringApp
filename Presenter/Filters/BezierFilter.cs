@@ -10,7 +10,8 @@ namespace Presenter.Filters
         private Dictionary<int, int> BezierCurve { get; }
         private bool BezierComputed { get; set; }
 
-        public List<Point> BezierPoints => _bezierPoints.ToList();
+        public List<int> BezierPointsArgs => _bezierPoints.Select(p => p.X).ToList();
+        public List<int> BezierPointsValues => _bezierPoints.Select(p => p.Y).ToList();
         public List<int> BezierArgs
         {
             get

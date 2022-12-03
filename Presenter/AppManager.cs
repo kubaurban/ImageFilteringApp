@@ -98,7 +98,12 @@ namespace Presenter
 
         private void HandlenContrastFilterChecked(object? sender, EventArgs e) => Filter = _contrastFilter.Value;
 
-        private void HandleBezierFilterChecked(object? sender, EventArgs e) => Filter = _bezierFilter.Value;
+        private void HandleBezierFilterChecked(object? sender, EventArgs e)
+        {
+            var bezierFilter = _bezierFilter.Value;
+            Filter = bezierFilter;
+            View.SetBezierChart(bezierFilter.BezierArgs, bezierFilter.BezierValues, bezierFilter.BezierPointsArgs, bezierFilter.BezierPointsArgs);
+        }
 
         private void LoadImage(string path)
         {
