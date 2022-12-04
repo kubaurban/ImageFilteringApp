@@ -8,8 +8,11 @@ namespace Presenter.Brushes
         {
             get
             {
-                var prev = BrushPoints.Last();
-                foreach (var p in BrushPoints)
+                // winforms Y axis is reversed
+                var scaledPoints = BrushPoints.Select(x => new Point(x.X, -x.Y));
+
+                var prev = scaledPoints.Last();
+                foreach (var p in scaledPoints)
                 {
                     if (p.Y < prev.Y)
                         yield return (p, prev);
@@ -20,24 +23,18 @@ namespace Presenter.Brushes
             }
         }
 
+        private class Node
+        {
+            public int Ymax { get; set; }
+            public float X { get; set; }
+            public float Coeff { get; set; }
+        }
+
         public override IEnumerable<Pixel> GetBrushPixels(LoadedImage image)
         {
             if (!CanBrush)
                 throw new InvalidOperationException();
 
-            foreach (var p in GetPolygonPoints())
-                yield return image[p.X, p.Y];
-        }
-
-        private class Node
-        {
-            public float Ymax { get; set; }
-            public float X { get; set; }
-            public float Coeff { get; set; }
-        }
-
-        private IEnumerable<Point> GetPolygonPoints()
-        {
             FillFacePreprocessing(out var ET);
 
             var AET = new List<Node>();
@@ -50,13 +47,16 @@ namespace Presenter.Brushes
                 }
                 AET = AET.OrderBy(x => x.X).ToList();
 
-                AET.RemoveAll(x => y_cur == (int)Math.Round(x.Ymax));
+                AET.RemoveAll(x => y_cur == x.Ymax);
 
                 for (int i = 0; i < AET.Count / 2; i++)
                 {
-                    for (int j = (int)AET[2 * i].X; j < AET[2 * i + 1].X; j++)
+                    for (int j = (int)AET[2 * i].X; j < AET[2 * i + 1].X; ++j)
                     {
-                        yield return new Point(j, y_cur);
+                        if (j < 0 || y_cur > 0 || j > image.Width - 1 || y_cur < 1 - image.Height)
+                            continue;
+
+                        yield return image[j, -y_cur];
                     }
                 }
 
@@ -80,7 +80,7 @@ namespace Presenter.Brushes
                 {
                     Ymax = upper.Y,
                     X = lower.X,
-                    Coeff = Math.Abs(lower.X - upper.X) > 1e-10 ? (lower.X - upper.X) / (lower.Y - upper.Y) : 0
+                    Coeff = lower.Y != upper.Y ? (float)(lower.X - upper.X) / (lower.Y - upper.Y) : 0
                 };
 
                 var yMin = lower.Y;

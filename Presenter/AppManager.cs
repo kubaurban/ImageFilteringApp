@@ -62,6 +62,7 @@ namespace Presenter
 
             View.BrushShapeChanged += HandleBrushShapeChanged;
             View.RemovePolygonBrushClicked += HandleRemovePolygonBrushClicked;
+            View.ApplyPolygonFilter += HandleApplyPolygonFilter;
 
             View.NoneFilterChecked += HandleNoneFilterChecked;
             View.NegativeFilterChecked += HandleNegativeFilterChecked;
@@ -71,6 +72,12 @@ namespace Presenter
             View.BezierFilterChecked += HandleBezierFilterChecked;
 
             View.BezierPointMoved += HandleBezierPointMoved;
+        }
+
+        private void HandleApplyPolygonFilter(object? sender, EventArgs e)
+        {
+            DrawFilteredImage();
+            LoadedImage!.Untouch();
         }
 
         #region Handlers
@@ -153,7 +160,6 @@ namespace Presenter
                                     Brush.AddBrushPoint(p);
                                     View.DrawVertex(p);
                                 }
-                                View.DrawLine(Brush.BrushPoints.Last(), p);
                             }
                             else
                             {
