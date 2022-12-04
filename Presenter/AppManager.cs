@@ -145,18 +145,22 @@ namespace Presenter
                                     p = Brush.BrushPoints.First();
                                     View.ToggleApplyButton();
                                     Brush.CanBrush = true;
+                                    View.DrawLine(Brush.BrushPoints.Last(), p);
                                 }
                                 else
                                 {
+                                    View.DrawLine(Brush.BrushPoints.Last(), p);
+                                    Brush.AddBrushPoint(p);
                                     View.DrawVertex(p);
                                 }
                                 View.DrawLine(Brush.BrushPoints.Last(), p);
                             }
                             else
                             {
+                                Brush.AddBrushPoint(e.Location);
                                 View.DrawVertex(e.Location);
                             }
-                            Brush.AddBrushPoint(e.Location);
+
                             View.RefreshArea();
                         }
                         break;
