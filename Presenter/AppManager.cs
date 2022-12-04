@@ -3,6 +3,7 @@ using Presenter.Brushes;
 using Presenter.Extensions;
 using Presenter.Filters;
 using View;
+using View.Enums;
 
 namespace Presenter
 {
@@ -21,6 +22,7 @@ namespace Presenter
 
         private IView View { get; }
         private LoadedImage? LoadedImage { get; set; }
+        private ShapedBrush Brush { get; set; }
         private IFilter Filter { get; set; }
 
         public Form? GetForm() => View as Form;
@@ -40,6 +42,7 @@ namespace Presenter
 
             View = view;
 
+            Brush = new PaintBrush(100);
             Filter = new NoneFilter();
             View.SetBezierPoints(BezierFilter.DefaultBezierPointsArgs, BezierFilter.DefaultBezierPointsValues);
 
@@ -75,32 +78,53 @@ namespace Presenter
 
         private void HandleCanvasClickedMouseMoved(object? sender, MouseEventArgs e)
         {
-            if (LoadedImage is not null)
+            switch (View.BrushShape)
             {
-                DrawFilteredImage(e.Location);
-                View.RefreshArea();
-
-                ComputeHistograms();
+                case BrushShape.Paintbrush:
+                    Brush.ClearBrushPoints();
+                    Brush.AddBrushPoint(e.Location);
+                    DrawFilteredImage();
+                    break;
+                case BrushShape.AddPolygon:
+                    break;
+                case BrushShape.RemovePolygon:
+                    break;
+                default:
+                    break;
             }
         }
 
         private void HandleCanvasClicked(object? sender, MouseEventArgs e)
         {
-            if (LoadedImage is not null)
+            switch (View.BrushShape)
             {
-                DrawFilteredImage(e.Location);
-                View.RefreshArea();
-
-                ComputeHistograms();
+                case BrushShape.Paintbrush:
+                    Brush.ClearBrushPoints();
+                    Brush.AddBrushPoint(e.Location);
+                    DrawFilteredImage();
+                    break;
+                case BrushShape.AddPolygon:
+                    break;
+                case BrushShape.RemovePolygon:
+                    break;
+                default:
+                    break;
             }
         }
 
         private void HandleLoadedFilenameChanged(object? sender, string filename)
         {
             View.ClearArea();
+
             LoadImage(filename);
 
-            DrawLoadedImage();
+            View.LockDrawArea();
+            foreach (var pixel in LoadedImage!.Pixels())
+            {
+                View.SetPixel(pixel.X, pixel.Y, pixel.Color);
+            }
+            View.UnlockDrawArea();
+
             View.RefreshArea();
 
             ComputeHistograms();
@@ -131,22 +155,15 @@ namespace Presenter
             LoadedImage = new LoadedImage(new Bitmap(bitmap, new((int)(bitmap.Width / scale), (int)(bitmap.Height / scale))));
         }
 
-        private void DrawLoadedImage()
+        private void DrawFilteredImage()
         {
             if (LoadedImage is not null)
             {
-                View.LockDrawArea();
-                foreach (var pixel in LoadedImage.Pixels())
-                {
-                    View.SetPixel(pixel.X, pixel.Y, pixel.Color);
-                }
-                View.UnlockDrawArea();
-            }
-        }
+                View.ModifyImage(LoadedImage!, Brush, Filter);
+                View.RefreshArea();
 
-        private void DrawFilteredImage(Point click)
-        {
-            View.ModifyImage(LoadedImage!, new PaintBrush(100, click), Filter);
+                ComputeHistograms();
+            }
         }
 
         private void ComputeHistograms()
