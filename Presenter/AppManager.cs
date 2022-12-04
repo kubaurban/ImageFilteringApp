@@ -10,6 +10,7 @@ namespace Presenter
     public class AppManager : IAppManager
     {
         private readonly List<KeyValuePair<int, int>> _emptyQuantity;
+        private readonly int _pointRadius;
 
         #region Filters
         private Lazy<NoneFilter> _noneFilter;
@@ -33,6 +34,8 @@ namespace Presenter
             for (int i = 0; i < 256; ++i)
                 _emptyQuantity.Add(new KeyValuePair<int, int>(i, 0));
 
+            _pointRadius = 10;
+
             _noneFilter = new Lazy<NoneFilter>(() => new NoneFilter());
             _negativeFilter = new Lazy<NegativeFilter>(() => new NegativeFilter());
             _brightnessFilter = new Lazy<BrightnessFilter>(() => new BrightnessFilter(50));
@@ -52,19 +55,53 @@ namespace Presenter
         private void InitViewHandlers()
         {
             View.LoadedFilenameChanged += HandleLoadedFilenameChanged;
+
             View.CanvasClicked += HandleCanvasClicked;
-            View.CanvasClickedMouseMoved += HandleCanvasClickedMouseMoved;
+            View.CanvasMouseMoved += HandleCanvasMouseMoved;
             View.CanvasClickedMouseUp += HandleCanvasClickedMouseUp;
+
+            View.BrushShapeChanged += HandleBrushShapeChanged;
+            View.RemovePolygonBrushClicked += HandleRemovePolygonBrushClicked;
+
             View.NoneFilterChecked += HandleNoneFilterChecked;
             View.NegativeFilterChecked += HandleNegativeFilterChecked;
             View.BrightnessFilterChecked += HandleBrightnessFilterChecked;
             View.GammaCorrectionFilterChecked += HandleGammaCorrectionFilterChecked;
             View.ContrastFilterChecked += HandlenContrastFilterChecked;
             View.BezierFilterChecked += HandleBezierFilterChecked;
+
             View.BezierPointMoved += HandleBezierPointMoved;
         }
 
         #region Handlers
+        private void HandleBrushShapeChanged(object? sender, EventArgs e)
+        {
+            switch (View.BrushShape)
+            {
+                case BrushShape.Paintbrush:
+                    View.ToggleApplyButton(false);
+                    RedrawImage();
+                    View.RefreshArea();
+                    Brush = new PaintBrush(100);
+                    break;
+                case BrushShape.Polygon:
+                    View.ToggleApplyButton(false);
+                    Brush = new PolygonBrush();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void HandleRemovePolygonBrushClicked(object? sender, EventArgs e)
+        {
+            View.ToggleApplyButton(false);
+            Brush.ClearBrushPoints();
+            Brush.CanBrush = false;
+            RedrawImage();
+            View.RefreshArea();
+        }
+
         private void HandleBezierPointMoved(object? sender, (int idx, Point newPoint) e)
         {
             if (Filter is BezierFilter bezierFilter)
@@ -76,39 +113,56 @@ namespace Presenter
 
         private void HandleCanvasClickedMouseUp(object? sender, MouseEventArgs e) => LoadedImage?.Untouch();
 
-        private void HandleCanvasClickedMouseMoved(object? sender, MouseEventArgs e)
+        private void HandleCanvasMouseMoved(object? sender, MouseEventArgs e)
         {
-            switch (View.BrushShape)
+            if (LoadedImage is not null && View.BrushShape == BrushShape.Paintbrush && View.IsCanvasClicked)
             {
-                case BrushShape.Paintbrush:
-                    Brush.ClearBrushPoints();
-                    Brush.AddBrushPoint(e.Location);
-                    DrawFilteredImage();
-                    break;
-                case BrushShape.AddPolygon:
-                    break;
-                case BrushShape.RemovePolygon:
-                    break;
-                default:
-                    break;
+                Brush.ClearBrushPoints();
+                Brush.AddBrushPoint(e.Location);
+                DrawFilteredImage();
             }
         }
 
         private void HandleCanvasClicked(object? sender, MouseEventArgs e)
         {
-            switch (View.BrushShape)
+            if (LoadedImage is not null)
             {
-                case BrushShape.Paintbrush:
-                    Brush.ClearBrushPoints();
-                    Brush.AddBrushPoint(e.Location);
-                    DrawFilteredImage();
-                    break;
-                case BrushShape.AddPolygon:
-                    break;
-                case BrushShape.RemovePolygon:
-                    break;
-                default:
-                    break;
+                switch (View.BrushShape)
+                {
+                    case BrushShape.Paintbrush:
+                        Brush.ClearBrushPoints();
+                        Brush.AddBrushPoint(e.Location);
+                        DrawFilteredImage();
+                        break;
+                    case BrushShape.Polygon:
+                        if (!Brush.CanBrush)
+                        {
+                            if (Brush.BrushPoints.Any())
+                            {
+                                var p = e.Location;
+                                if (Brush.BrushPoints.First().Clicked(e.Location, _pointRadius))
+                                {
+                                    p = Brush.BrushPoints.First();
+                                    View.ToggleApplyButton();
+                                    Brush.CanBrush = true;
+                                }
+                                else
+                                {
+                                    View.DrawVertex(p);
+                                }
+                                View.DrawLine(Brush.BrushPoints.Last(), p);
+                            }
+                            else
+                            {
+                                View.DrawVertex(e.Location);
+                            }
+                            Brush.AddBrushPoint(e.Location);
+                            View.RefreshArea();
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -118,13 +172,7 @@ namespace Presenter
 
             LoadImage(filename);
 
-            View.LockDrawArea();
-            foreach (var pixel in LoadedImage!.Pixels())
-            {
-                View.SetPixel(pixel.X, pixel.Y, pixel.Color);
-            }
-            View.UnlockDrawArea();
-
+            DrawLoadedImage();
             View.RefreshArea();
 
             ComputeHistograms();
@@ -155,15 +203,28 @@ namespace Presenter
             LoadedImage = new LoadedImage(new Bitmap(bitmap, new((int)(bitmap.Width / scale), (int)(bitmap.Height / scale))));
         }
 
+        private void DrawLoadedImage()
+        {
+            View.LockDrawArea();
+            foreach (var pixel in LoadedImage!.Pixels())
+            {
+                View.SetPixel(pixel.X, pixel.Y, pixel.Color);
+            }
+            View.UnlockDrawArea();
+        }
+
+        private void RedrawImage()
+        {
+            View.ClearArea();
+            DrawLoadedImage();
+        }
+
         private void DrawFilteredImage()
         {
-            if (LoadedImage is not null)
-            {
-                View.ModifyImage(LoadedImage!, Brush, Filter);
-                View.RefreshArea();
+            View.ModifyImage(LoadedImage!, Brush, Filter);
+            View.RefreshArea();
 
-                ComputeHistograms();
-            }
+            ComputeHistograms();
         }
 
         private void ComputeHistograms()

@@ -16,6 +16,7 @@ namespace View
         private Chart BChart { get; set; }
 
         public event EventHandler BrushShapeChanged;
+        public event EventHandler RemovePolygonBrushClicked;
         public event EventHandler NoneFilterChecked;
         public event EventHandler NegativeFilterChecked;
         public event EventHandler BrightnessFilterChecked;
@@ -25,7 +26,7 @@ namespace View
         public event EventHandler ApplyPolygonFilter;
         public event EventHandler<(int, Point)> BezierPointMoved;
         public event MouseEventHandler CanvasClicked;
-        public event MouseEventHandler CanvasClickedMouseMoved;
+        public event MouseEventHandler CanvasMouseMoved;
         public event MouseEventHandler CanvasClickedMouseUp;
         public event EventHandler<string> LoadedFilenameChanged;
 
@@ -38,13 +39,13 @@ namespace View
         private Color _defaultColor;
 
         private Graphics Graphics => Graphics.FromImage(_drawArea);
-        private bool IsCanvasClicked { get; set; }
         private int MovedBezierPointIdx { get; set; }
 
         public BrushShape BrushShape => _currentBrushShape;
         public FilterMethod FilterMethod => _currentFilterMethod;
 
         public Size CanvasSize => new(Canvas.Width - 2 * _canvasMargin, Canvas.Height - 2 * _canvasMargin);
+        public bool IsCanvasClicked { get; set; }
 
         public GUI()
         {
@@ -61,7 +62,7 @@ namespace View
         private void InitDefaultState()
         {
             _canvasMargin = 10;
-            _vertexSize = 5;
+            _vertexSize = 8;
             _defaultColor = Color.Black;
             NoneButton.Checked = true;
             _currentFilterMethod = FilterMethod.None;
@@ -73,6 +74,11 @@ namespace View
             BrushShapeLabel.Text = "Brush type: Paintbrush";
             _currentBrushShape = BrushShape.Paintbrush;
             MovedBezierPointIdx = -1;
+        }
+
+        public void ToggleApplyButton(bool? enable)
+        {
+            ApplyButton.Enabled = enable ?? !ApplyButton.Enabled;
         }
 
         #region Charts
@@ -237,7 +243,7 @@ namespace View
             var p = Offset(center);
 
             using var g = Graphics;
-            g.DrawRectangle(new(color ?? _defaultColor), p.X - _vertexSize, p.Y - _vertexSize, _vertexSize, _vertexSize);
+            g.DrawRectangle(new(color ?? _defaultColor), p.X - _vertexSize / 2, p.Y - _vertexSize / 2, _vertexSize, _vertexSize);
         }
 
         public void DrawLine(PointF start, PointF end, Color? color = null)
@@ -272,17 +278,26 @@ namespace View
         private PointF Offset(PointF p) => new PointF(p.X + _canvasMargin, p.Y + _canvasMargin);
         #endregion Canvas drawing
 
-        #region Handlers
-        private void OnBrushButtonClick(object sender, EventArgs e)
+        #region Events
+        private void OnPaintBrushButtonClick(object sender, EventArgs e)
         {
+            _currentBrushShape = BrushShape.Paintbrush;
             BrushShapeChanged?.Invoke(sender, e);
+            RemovePolygonButton.Enabled = false;
             BrushShapeLabel.Text = "Brush type: Paintbrush";
         }
 
         private void OnAddPolygonButtonClick(object sender, EventArgs e)
         {
+            _currentBrushShape = BrushShape.Polygon;
             BrushShapeChanged?.Invoke(sender, e);
+            RemovePolygonButton.Enabled = true;
             BrushShapeLabel.Text = "Brush type: Polygon";
+        }
+
+        private void OnRemovePolygonButtonClick(object sender, EventArgs e)
+        {
+            RemovePolygonBrushClicked?.Invoke(sender, e);
         }
 
         private void OnNoneFilterCheckedChanged(object sender, EventArgs e)
@@ -369,10 +384,7 @@ namespace View
 
         private void OnCanvasClickedMouseMove(object sender, MouseEventArgs e)
         {
-            if (IsCanvasClicked)
-            {
-                CanvasClickedMouseMoved?.Invoke(sender, new MouseEventArgs(e.Button, e.Clicks, e.X - _canvasMargin, e.Y - _canvasMargin, e.Delta));
-            }
+            CanvasMouseMoved?.Invoke(sender, new MouseEventArgs(e.Button, e.Clicks, e.X - _canvasMargin, e.Y - _canvasMargin, e.Delta));
         }
 
         private void OnBezierChartMouseMove(object sender, MouseEventArgs e)
@@ -434,6 +446,6 @@ namespace View
                 }
             }
         }
-        #endregion Handlers
+        #endregion Events
     }
 }

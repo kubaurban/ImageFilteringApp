@@ -128,6 +128,7 @@
             this.RemovePolygonButton.Size = new System.Drawing.Size(80, 93);
             this.RemovePolygonButton.TabIndex = 2;
             this.RemovePolygonButton.UseVisualStyleBackColor = true;
+            this.RemovePolygonButton.Click += new System.EventHandler(this.OnRemovePolygonButtonClick);
             // 
             // AddPolygonButton
             // 
@@ -149,7 +150,7 @@
             this.BrushButton.Size = new System.Drawing.Size(80, 93);
             this.BrushButton.TabIndex = 0;
             this.BrushButton.UseVisualStyleBackColor = true;
-            this.BrushButton.Click += new System.EventHandler(this.OnBrushButtonClick);
+            this.BrushButton.Click += new System.EventHandler(this.OnPaintBrushButtonClick);
             // 
             // FiltersBox
             // 

@@ -6,6 +6,9 @@ namespace Presenter.Brushes
     {
         public override IEnumerable<Pixel> GetBrushPixels(LoadedImage image)
         {
+            if (!CanBrush)
+                throw new InvalidOperationException();
+
             throw new NotImplementedException();
         }
     }

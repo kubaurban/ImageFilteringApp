@@ -5,6 +5,7 @@ namespace View
     public interface IView
     {
         event EventHandler BrushShapeChanged;
+        event EventHandler RemovePolygonBrushClicked;
         event EventHandler NoneFilterChecked;
         event EventHandler NegativeFilterChecked;
         event EventHandler BrightnessFilterChecked;
@@ -15,13 +16,14 @@ namespace View
         event EventHandler<(int, Point)> BezierPointMoved; 
         event EventHandler<string> LoadedFilenameChanged;
         event MouseEventHandler CanvasClicked;
-        event MouseEventHandler CanvasClickedMouseMoved;
+        event MouseEventHandler CanvasMouseMoved;
         event MouseEventHandler CanvasClickedMouseUp;
 
         BrushShape BrushShape { get; }
         FilterMethod FilterMethod { get; }
 
         Size CanvasSize { get; }
+        bool IsCanvasClicked { get; set; }
 
         void SetPixel(int x, int y, Color color);
         void DrawVertex(PointF center, Color? color = null);
@@ -37,5 +39,7 @@ namespace View
         void SetRChart(List<int> args, List<int> values);
         void SetGChart(List<int> args, List<int> values);
         void SetBChart(List<int> args, List<int> values);
+
+        void ToggleApplyButton(bool? enable = null);
     }
 }
