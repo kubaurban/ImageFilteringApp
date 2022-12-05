@@ -16,6 +16,7 @@ namespace View
         event EventHandler<decimal> ContrastValueChanged;
         event EventHandler<decimal> BrightnessValueChanged;
         event EventHandler<decimal> GammaCorrectionValueChanged;
+        event EventHandler<int> PaintBrushValueChanged; 
         event EventHandler<(int, Point)> BezierPointMoved; 
         event EventHandler<string> LoadedFilenameChanged;
         event MouseEventHandler CanvasClicked;

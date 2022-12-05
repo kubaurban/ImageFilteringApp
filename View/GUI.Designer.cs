@@ -36,6 +36,7 @@
             this.RemovePolygonButton = new System.Windows.Forms.Button();
             this.AddPolygonButton = new System.Windows.Forms.Button();
             this.BrushButton = new System.Windows.Forms.Button();
+            this.PaintbrushTrackBar = new System.Windows.Forms.TrackBar();
             this.LoadImageButton = new System.Windows.Forms.Button();
             this.BrushShapeLabel = new System.Windows.Forms.Label();
             this.FiltersBox = new System.Windows.Forms.GroupBox();
@@ -51,6 +52,7 @@
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
             this.BrushShapesBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PaintbrushTrackBar)).BeginInit();
             this.FiltersBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GammaNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BrightnessNumericUpDown)).BeginInit();
@@ -105,6 +107,7 @@
             this.BrushShapesBox.Controls.Add(this.RemovePolygonButton);
             this.BrushShapesBox.Controls.Add(this.AddPolygonButton);
             this.BrushShapesBox.Controls.Add(this.BrushButton);
+            this.BrushShapesBox.Controls.Add(this.PaintbrushTrackBar);
             this.BrushShapesBox.Location = new System.Drawing.Point(3, 4);
             this.BrushShapesBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.BrushShapesBox.Name = "BrushShapesBox";
@@ -155,10 +158,23 @@
             this.BrushButton.Location = new System.Drawing.Point(11, 25);
             this.BrushButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.BrushButton.Name = "BrushButton";
-            this.BrushButton.Size = new System.Drawing.Size(80, 93);
+            this.BrushButton.Size = new System.Drawing.Size(80, 60);
             this.BrushButton.TabIndex = 0;
             this.BrushButton.UseVisualStyleBackColor = true;
             this.BrushButton.Click += new System.EventHandler(this.OnPaintBrushButtonClick);
+            // 
+            // PaintbrushTrackBar
+            // 
+            this.PaintbrushTrackBar.Location = new System.Drawing.Point(4, 87);
+            this.PaintbrushTrackBar.Maximum = 100;
+            this.PaintbrushTrackBar.Minimum = 10;
+            this.PaintbrushTrackBar.Name = "PaintbrushTrackBar";
+            this.PaintbrushTrackBar.Size = new System.Drawing.Size(95, 56);
+            this.PaintbrushTrackBar.SmallChange = 10;
+            this.PaintbrushTrackBar.TabIndex = 4;
+            this.PaintbrushTrackBar.TickFrequency = 5;
+            this.PaintbrushTrackBar.Value = 55;
+            this.PaintbrushTrackBar.ValueChanged += new System.EventHandler(this.OnPaintbrushTrackBarValueChanged);
             // 
             // LoadImageButton
             // 
@@ -378,6 +394,8 @@
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).EndInit();
             this.BrushShapesBox.ResumeLayout(false);
+            this.BrushShapesBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PaintbrushTrackBar)).EndInit();
             this.FiltersBox.ResumeLayout(false);
             this.FiltersBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GammaNumericUpDown)).EndInit();
@@ -408,5 +426,6 @@
         private NumericUpDown GammaNumericUpDown;
         private NumericUpDown BrightnessNumericUpDown;
         private NumericUpDown ContrastNumericUpDown;
+        private TrackBar PaintbrushTrackBar;
     }
 }

@@ -27,6 +27,7 @@ namespace View
         public event EventHandler<decimal> ContrastValueChanged;
         public event EventHandler<decimal> BrightnessValueChanged;
         public event EventHandler<decimal> GammaCorrectionValueChanged;
+        public event EventHandler<int> PaintBrushValueChanged;
         public event EventHandler<(int, Point)> BezierPointMoved;
         public event MouseEventHandler CanvasClicked;
         public event MouseEventHandler CanvasMouseMoved;
@@ -280,6 +281,8 @@ namespace View
             RemovePolygonButton.Enabled = false;
             BrushShapeLabel.Text = "Brush type: Paintbrush";
         }
+
+        private void OnPaintbrushTrackBarValueChanged(object sender, EventArgs e) => PaintBrushValueChanged?.Invoke(sender, PaintbrushTrackBar.Value);
 
         private void OnAddPolygonButtonClick(object sender, EventArgs e)
         {
