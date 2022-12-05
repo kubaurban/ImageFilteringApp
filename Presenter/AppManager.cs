@@ -12,6 +12,11 @@ namespace Presenter
         private readonly List<KeyValuePair<int, int>> _emptyQuantity;
         private readonly int _pointRadius;
 
+        #region Brushes
+        private readonly PaintBrush _paintBrush;
+        private readonly PolygonBrush _polygonBrush;
+        #endregion Brushes
+
         #region Filters
         private readonly NoneFilter _noneFilter;
         private readonly NegativeFilter _negativeFilter;
@@ -36,6 +41,9 @@ namespace Presenter
 
             _pointRadius = 10;
 
+            _paintBrush = new PaintBrush(55);
+            _polygonBrush = new PolygonBrush();
+
             _noneFilter = new NoneFilter();
             _negativeFilter = new NegativeFilter();
             _brightnessFilter = new BrightnessFilter(20);
@@ -45,7 +53,7 @@ namespace Presenter
 
             View = view;
 
-            Brush = new PaintBrush(100);
+            Brush = _paintBrush;
             Filter = _noneFilter;
             View.SetBezierPoints(BezierFilter.DefaultBezierPointsArgs, BezierFilter.DefaultBezierPointsValues);
 
@@ -60,6 +68,7 @@ namespace Presenter
             View.CanvasMouseMoved += HandleCanvasMouseMoved;
             View.CanvasClickedMouseUp += HandleCanvasClickedMouseUp;
 
+            View.PaintBrushValueChanged += HandlePaintBrushValueChanged;
             View.BrushShapeChanged += HandleBrushShapeChanged;
             View.RemovePolygonBrushClicked += HandleRemovePolygonBrushClicked;
             View.ApplyPolygonFilter += HandleApplyPolygonFilter;
@@ -87,16 +96,18 @@ namespace Presenter
                     View.ToggleApplyButton(false);
                     RedrawImage();
                     View.RefreshArea();
-                    Brush = new PaintBrush(100);
+                    Brush = _paintBrush;
                     break;
                 case BrushShape.Polygon:
                     View.ToggleApplyButton(false);
-                    Brush = new PolygonBrush();
+                    Brush = _polygonBrush;
                     break;
                 default:
                     break;
             }
         }
+
+        private void HandlePaintBrushValueChanged(object? sender, int e) => _paintBrush.Radius = e;
 
         private void HandleRemovePolygonBrushClicked(object? sender, EventArgs e)
         {
@@ -246,8 +257,11 @@ namespace Presenter
 
         private void RedrawImage()
         {
-            View.ClearArea();
-            DrawLoadedImage();
+            if (LoadedImage is not null)
+            {
+                View.ClearArea();
+                DrawLoadedImage();
+            }
         }
 
         private void DrawFilteredImage()

@@ -30,13 +30,13 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUI));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.Canvas = new System.Windows.Forms.PictureBox();
             this.BrushShapesBox = new System.Windows.Forms.GroupBox();
             this.ApplyButton = new System.Windows.Forms.Button();
             this.RemovePolygonButton = new System.Windows.Forms.Button();
             this.AddPolygonButton = new System.Windows.Forms.Button();
             this.BrushButton = new System.Windows.Forms.Button();
             this.PaintbrushTrackBar = new System.Windows.Forms.TrackBar();
+            this.Canvas = new System.Windows.Forms.PictureBox();
             this.LoadImageButton = new System.Windows.Forms.Button();
             this.BrushShapeLabel = new System.Windows.Forms.Label();
             this.FiltersBox = new System.Windows.Forms.GroupBox();
@@ -50,9 +50,9 @@
             this.BrightnessButton = new System.Windows.Forms.RadioButton();
             this.NegativeButton = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
             this.BrushShapesBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PaintbrushTrackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
             this.FiltersBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GammaNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BrightnessNumericUpDown)).BeginInit();
@@ -66,8 +66,8 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.5F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.5F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel1.Controls.Add(this.Canvas, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.BrushShapesBox, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.Canvas, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.LoadImageButton, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.BrushShapeLabel, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.FiltersBox, 0, 2);
@@ -83,23 +83,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.34F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1270, 815);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // Canvas
-            // 
-            this.Canvas.BackColor = System.Drawing.Color.White;
-            this.tableLayoutPanel1.SetColumnSpan(this.Canvas, 2);
-            this.Canvas.Location = new System.Drawing.Point(384, 44);
-            this.Canvas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Canvas.MaximumSize = new System.Drawing.Size(563, 767);
-            this.Canvas.MinimumSize = new System.Drawing.Size(563, 767);
-            this.Canvas.Name = "Canvas";
-            this.tableLayoutPanel1.SetRowSpan(this.Canvas, 5);
-            this.Canvas.Size = new System.Drawing.Size(563, 767);
-            this.Canvas.TabIndex = 0;
-            this.Canvas.TabStop = false;
-            this.Canvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnCanvasClick);
-            this.Canvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnCanvasClickedMouseMove);
-            this.Canvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OnCanvasClickedMouseUp);
             // 
             // BrushShapesBox
             // 
@@ -120,52 +103,60 @@
             // 
             // ApplyButton
             // 
+            this.ApplyButton.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ApplyButton.Enabled = false;
+            this.ApplyButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.ApplyButton.Location = new System.Drawing.Point(288, 25);
             this.ApplyButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ApplyButton.Name = "ApplyButton";
             this.ApplyButton.Size = new System.Drawing.Size(80, 93);
             this.ApplyButton.TabIndex = 3;
             this.ApplyButton.Text = "Apply";
-            this.ApplyButton.UseVisualStyleBackColor = true;
+            this.ApplyButton.UseVisualStyleBackColor = false;
             this.ApplyButton.Click += new System.EventHandler(this.OnApplyButtonClick);
             // 
             // RemovePolygonButton
             // 
+            this.RemovePolygonButton.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.RemovePolygonButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.RemovePolygonButton.Image = ((System.Drawing.Image)(resources.GetObject("RemovePolygonButton.Image")));
             this.RemovePolygonButton.Location = new System.Drawing.Point(202, 25);
             this.RemovePolygonButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.RemovePolygonButton.Name = "RemovePolygonButton";
             this.RemovePolygonButton.Size = new System.Drawing.Size(80, 93);
             this.RemovePolygonButton.TabIndex = 2;
-            this.RemovePolygonButton.UseVisualStyleBackColor = true;
+            this.RemovePolygonButton.UseVisualStyleBackColor = false;
             this.RemovePolygonButton.Click += new System.EventHandler(this.OnRemovePolygonButtonClick);
             // 
             // AddPolygonButton
             // 
+            this.AddPolygonButton.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.AddPolygonButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.AddPolygonButton.Image = ((System.Drawing.Image)(resources.GetObject("AddPolygonButton.Image")));
             this.AddPolygonButton.Location = new System.Drawing.Point(116, 25);
             this.AddPolygonButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.AddPolygonButton.Name = "AddPolygonButton";
             this.AddPolygonButton.Size = new System.Drawing.Size(80, 93);
             this.AddPolygonButton.TabIndex = 1;
-            this.AddPolygonButton.UseVisualStyleBackColor = true;
+            this.AddPolygonButton.UseVisualStyleBackColor = false;
             this.AddPolygonButton.Click += new System.EventHandler(this.OnAddPolygonButtonClick);
             // 
             // BrushButton
             // 
+            this.BrushButton.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.BrushButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.BrushButton.Image = ((System.Drawing.Image)(resources.GetObject("BrushButton.Image")));
-            this.BrushButton.Location = new System.Drawing.Point(11, 25);
+            this.BrushButton.Location = new System.Drawing.Point(11, 58);
             this.BrushButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.BrushButton.Name = "BrushButton";
             this.BrushButton.Size = new System.Drawing.Size(80, 60);
             this.BrushButton.TabIndex = 0;
-            this.BrushButton.UseVisualStyleBackColor = true;
+            this.BrushButton.UseVisualStyleBackColor = false;
             this.BrushButton.Click += new System.EventHandler(this.OnPaintBrushButtonClick);
             // 
             // PaintbrushTrackBar
             // 
-            this.PaintbrushTrackBar.Location = new System.Drawing.Point(4, 87);
+            this.PaintbrushTrackBar.Location = new System.Drawing.Point(3, 27);
             this.PaintbrushTrackBar.Maximum = 100;
             this.PaintbrushTrackBar.Minimum = 10;
             this.PaintbrushTrackBar.Name = "PaintbrushTrackBar";
@@ -173,8 +164,26 @@
             this.PaintbrushTrackBar.SmallChange = 10;
             this.PaintbrushTrackBar.TabIndex = 4;
             this.PaintbrushTrackBar.TickFrequency = 5;
+            this.PaintbrushTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
             this.PaintbrushTrackBar.Value = 55;
             this.PaintbrushTrackBar.ValueChanged += new System.EventHandler(this.OnPaintbrushTrackBarValueChanged);
+            // 
+            // Canvas
+            // 
+            this.Canvas.BackColor = System.Drawing.Color.White;
+            this.tableLayoutPanel1.SetColumnSpan(this.Canvas, 2);
+            this.Canvas.Location = new System.Drawing.Point(384, 44);
+            this.Canvas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Canvas.MaximumSize = new System.Drawing.Size(563, 767);
+            this.Canvas.MinimumSize = new System.Drawing.Size(563, 767);
+            this.Canvas.Name = "Canvas";
+            this.tableLayoutPanel1.SetRowSpan(this.Canvas, 5);
+            this.Canvas.Size = new System.Drawing.Size(563, 767);
+            this.Canvas.TabIndex = 0;
+            this.Canvas.TabStop = false;
+            this.Canvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnCanvasClick);
+            this.Canvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnCanvasClickedMouseMove);
+            this.Canvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OnCanvasClickedMouseUp);
             // 
             // LoadImageButton
             // 
@@ -392,10 +401,10 @@
             this.Text = "ImageFiltrator";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Canvas)).EndInit();
             this.BrushShapesBox.ResumeLayout(false);
             this.BrushShapesBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PaintbrushTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Canvas)).EndInit();
             this.FiltersBox.ResumeLayout(false);
             this.FiltersBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GammaNumericUpDown)).EndInit();
