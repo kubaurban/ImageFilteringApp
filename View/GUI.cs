@@ -86,8 +86,8 @@ namespace View
         {
             // BezierChart
             BezierChart = CreateChart("BezierChart", "Bezier curve");
-            tableLayoutPanel1.Controls.Add(BezierChart, 0, 4);
-            tableLayoutPanel1.SetRowSpan(tableLayoutPanel1.Controls["BezierChart"], 2);
+            tableLayoutPanel1.Controls.Add(BezierChart, 0, 3);
+            tableLayoutPanel1.SetRowSpan(tableLayoutPanel1.Controls["BezierChart"], 3);
             BezierChart.Dock = DockStyle.Fill;
             BezierChart.Series.Add(new Series()
             {
@@ -112,9 +112,9 @@ namespace View
             BezierChart.ChartAreas[0].AxisX.Minimum = -15;
             BezierChart.ChartAreas[0].AxisX.Maximum = 270;
 
-            BezierChart.ChartAreas[0].AxisY.Interval = 15;
-            BezierChart.ChartAreas[0].AxisY.Minimum = -90;
-            BezierChart.ChartAreas[0].AxisY.Maximum = 345;
+            BezierChart.ChartAreas[0].AxisY.Interval = 17;
+            BezierChart.ChartAreas[0].AxisY.Minimum = -170;
+            BezierChart.ChartAreas[0].AxisY.Maximum = 425;
 
             int startOffset = -2;
             int endOffset = 2;
