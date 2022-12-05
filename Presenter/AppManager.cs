@@ -78,6 +78,15 @@ namespace Presenter
         {
             DrawFilteredImage();
             LoadedImage!.Untouch();
+
+            var prev = Brush.BrushPoints.Last();
+            foreach (var p in Brush.BrushPoints)
+            {
+                View.DrawVertex(p);
+                View.DrawLine(prev, p);
+                prev = p;
+            }
+            View.RefreshArea();
         }
 
         #region Handlers
@@ -127,6 +136,7 @@ namespace Presenter
                 Brush.ClearBrushPoints();
                 Brush.AddBrushPoint(e.Location);
                 DrawFilteredImage();
+                View.RefreshArea();
             }
         }
 
@@ -140,6 +150,7 @@ namespace Presenter
                         Brush.ClearBrushPoints();
                         Brush.AddBrushPoint(e.Location);
                         DrawFilteredImage();
+                        View.RefreshArea();
                         break;
                     case BrushShape.Polygon:
                         if (!Brush.CanBrush)
@@ -232,7 +243,6 @@ namespace Presenter
         private void DrawFilteredImage()
         {
             View.ModifyImage(LoadedImage!, Brush, Filter);
-            View.RefreshArea();
 
             ComputeHistograms();
         }
