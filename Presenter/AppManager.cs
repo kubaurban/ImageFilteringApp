@@ -15,6 +15,7 @@ namespace Presenter
         #region Brushes
         private readonly PaintBrush _paintBrush;
         private readonly PolygonBrush _polygonBrush;
+        private readonly ImageBrush _imageBrush;
         #endregion Brushes
 
         #region Filters
@@ -43,6 +44,7 @@ namespace Presenter
 
             _paintBrush = new PaintBrush(55);
             _polygonBrush = new PolygonBrush();
+            _imageBrush = new ImageBrush();
 
             _noneFilter = new NoneFilter();
             _negativeFilter = new NegativeFilter();
@@ -71,7 +73,7 @@ namespace Presenter
             View.PaintBrushValueChanged += HandlePaintBrushValueChanged;
             View.BrushShapeChanged += HandleBrushShapeChanged;
             View.RemovePolygonBrushClicked += HandleRemovePolygonBrushClicked;
-            View.ApplyPolygonFilter += HandleApplyPolygonFilter;
+            View.ApplyPolygonFilter += HandleApplyFilter;
 
             View.ContrastValueChanged += HandleContrastValueChanged;
             View.BrightnessValueChanged += HandleBrightnessValueChanged;
@@ -92,6 +94,12 @@ namespace Presenter
         {
             switch (View.BrushShape)
             {
+                case BrushShape.WholeImage:
+                    View.ToggleApplyButton(true);
+                    RedrawImage();
+                    View.RefreshArea();
+                    Brush = _imageBrush;
+                    break;
                 case BrushShape.Paintbrush:
                     View.ToggleApplyButton(false);
                     RedrawImage();
@@ -118,19 +126,26 @@ namespace Presenter
             View.RefreshArea();
         }
 
-        private void HandleApplyPolygonFilter(object? sender, EventArgs e)
+        private void HandleApplyFilter(object? sender, EventArgs e)
         {
-            DrawFilteredImage();
-            LoadedImage!.Untouch();
-
-            var prev = Brush.BrushPoints.Last();
-            foreach (var p in Brush.BrushPoints)
+            if (LoadedImage is not null)
             {
-                View.DrawVertex(p);
-                View.DrawLine(prev, p);
-                prev = p;
+                DrawFilteredImage();
+                LoadedImage.Untouch();
+
+                if (View.BrushShape == BrushShape.Polygon)
+                {
+                    var prev = Brush.BrushPoints.Last();
+                    foreach (var p in Brush.BrushPoints)
+                    {
+                        View.DrawVertex(p);
+                        View.DrawLine(prev, p);
+                        prev = p;
+                    }
+                }
+
+                View.RefreshArea(); 
             }
-            View.RefreshArea();
         }
 
         private void HandleGammaCorrectionValueChanged(object? sender, decimal e) => _gammaCorrectionFilter.Gamma = (double)e;
@@ -247,12 +262,14 @@ namespace Presenter
 
         private void DrawLoadedImage()
         {
+            LoadedImage!.Lock();
             View.LockDrawArea();
             foreach (var pixel in LoadedImage!.Pixels())
             {
                 View.SetPixel(pixel.X, pixel.Y, pixel.Color);
             }
             View.UnlockDrawArea();
+            LoadedImage!.Unlock();
         }
 
         private void RedrawImage()
@@ -277,12 +294,14 @@ namespace Presenter
             var quantityG = new Dictionary<int, int>(_emptyQuantity);
             var quantityB = new Dictionary<int, int>(_emptyQuantity);
 
+            LoadedImage!.Lock();
             foreach (var pixel in LoadedImage!.Pixels())
             {
                 ++quantityR[pixel.R];
                 ++quantityG[pixel.G];
                 ++quantityB[pixel.B];
             }
+            LoadedImage!.Unlock();
 
             View.SetRChart(quantityR.Keys.ToList(), quantityR.Values.ToList());
             View.SetGChart(quantityG.Keys.ToList(), quantityG.Values.ToList());

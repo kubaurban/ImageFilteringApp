@@ -274,6 +274,14 @@ namespace View
         #endregion Canvas drawing
 
         #region Events
+        private void OnImageBrushButtonClick(object sender, EventArgs e)
+        {
+            _currentBrushShape = BrushShape.WholeImage;
+            BrushShapeChanged?.Invoke(sender, e);
+            RemovePolygonButton.Enabled = false;
+            BrushShapeLabel.Text = "Brush type: Whole image";
+        }
+
         private void OnPaintBrushButtonClick(object sender, EventArgs e)
         {
             _currentBrushShape = BrushShape.Paintbrush;

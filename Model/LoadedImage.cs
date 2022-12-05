@@ -34,8 +34,6 @@ namespace Model
 
         public IEnumerable<Pixel> Pixels()
         {
-            _fastBitmap.Lock();
-
             for (int i = 0; i < Width; ++i)
             {
                 for (int j = 0; j < Height; ++j)
@@ -43,8 +41,6 @@ namespace Model
                     yield return this[i, j];
                 }
             }
-
-            _fastBitmap.Unlock();
         }
 
         public void Untouch()

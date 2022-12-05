@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUI));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.BrushShapesBox = new System.Windows.Forms.GroupBox();
+            this.ImageBrushButton = new System.Windows.Forms.Button();
             this.ApplyButton = new System.Windows.Forms.Button();
             this.RemovePolygonButton = new System.Windows.Forms.Button();
             this.AddPolygonButton = new System.Windows.Forms.Button();
@@ -81,32 +82,47 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.67F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.34F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1270, 815);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1631, 815);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // BrushShapesBox
             // 
+            this.BrushShapesBox.Controls.Add(this.ImageBrushButton);
             this.BrushShapesBox.Controls.Add(this.ApplyButton);
             this.BrushShapesBox.Controls.Add(this.RemovePolygonButton);
             this.BrushShapesBox.Controls.Add(this.AddPolygonButton);
             this.BrushShapesBox.Controls.Add(this.BrushButton);
             this.BrushShapesBox.Controls.Add(this.PaintbrushTrackBar);
+            this.BrushShapesBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.BrushShapesBox.Location = new System.Drawing.Point(3, 4);
             this.BrushShapesBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.BrushShapesBox.Name = "BrushShapesBox";
             this.BrushShapesBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tableLayoutPanel1.SetRowSpan(this.BrushShapesBox, 2);
-            this.BrushShapesBox.Size = new System.Drawing.Size(374, 129);
+            this.BrushShapesBox.Size = new System.Drawing.Size(483, 129);
             this.BrushShapesBox.TabIndex = 1;
             this.BrushShapesBox.TabStop = false;
             this.BrushShapesBox.Text = "Brush shapes";
+            // 
+            // ImageBrushButton
+            // 
+            this.ImageBrushButton.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.ImageBrushButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.ImageBrushButton.Location = new System.Drawing.Point(126, 25);
+            this.ImageBrushButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ImageBrushButton.Name = "ImageBrushButton";
+            this.ImageBrushButton.Size = new System.Drawing.Size(80, 93);
+            this.ImageBrushButton.TabIndex = 5;
+            this.ImageBrushButton.Text = "Whole image";
+            this.ImageBrushButton.UseVisualStyleBackColor = false;
+            this.ImageBrushButton.Click += new System.EventHandler(this.OnImageBrushButtonClick);
             // 
             // ApplyButton
             // 
             this.ApplyButton.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ApplyButton.Enabled = false;
             this.ApplyButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.ApplyButton.Location = new System.Drawing.Point(288, 25);
+            this.ApplyButton.Location = new System.Drawing.Point(397, 25);
             this.ApplyButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ApplyButton.Name = "ApplyButton";
             this.ApplyButton.Size = new System.Drawing.Size(80, 93);
@@ -120,7 +136,7 @@
             this.RemovePolygonButton.BackColor = System.Drawing.SystemColors.ControlLight;
             this.RemovePolygonButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.RemovePolygonButton.Image = ((System.Drawing.Image)(resources.GetObject("RemovePolygonButton.Image")));
-            this.RemovePolygonButton.Location = new System.Drawing.Point(202, 25);
+            this.RemovePolygonButton.Location = new System.Drawing.Point(311, 25);
             this.RemovePolygonButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.RemovePolygonButton.Name = "RemovePolygonButton";
             this.RemovePolygonButton.Size = new System.Drawing.Size(80, 93);
@@ -133,7 +149,7 @@
             this.AddPolygonButton.BackColor = System.Drawing.SystemColors.ControlLight;
             this.AddPolygonButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.AddPolygonButton.Image = ((System.Drawing.Image)(resources.GetObject("AddPolygonButton.Image")));
-            this.AddPolygonButton.Location = new System.Drawing.Point(116, 25);
+            this.AddPolygonButton.Location = new System.Drawing.Point(225, 25);
             this.AddPolygonButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.AddPolygonButton.Name = "AddPolygonButton";
             this.AddPolygonButton.Size = new System.Drawing.Size(80, 93);
@@ -156,7 +172,7 @@
             // 
             // PaintbrushTrackBar
             // 
-            this.PaintbrushTrackBar.Location = new System.Drawing.Point(3, 27);
+            this.PaintbrushTrackBar.Location = new System.Drawing.Point(4, 27);
             this.PaintbrushTrackBar.Maximum = 100;
             this.PaintbrushTrackBar.Minimum = 10;
             this.PaintbrushTrackBar.Name = "PaintbrushTrackBar";
@@ -172,13 +188,12 @@
             // 
             this.Canvas.BackColor = System.Drawing.Color.White;
             this.tableLayoutPanel1.SetColumnSpan(this.Canvas, 2);
-            this.Canvas.Location = new System.Drawing.Point(384, 44);
+            this.Canvas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Canvas.Location = new System.Drawing.Point(492, 44);
             this.Canvas.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Canvas.MaximumSize = new System.Drawing.Size(563, 767);
-            this.Canvas.MinimumSize = new System.Drawing.Size(563, 767);
             this.Canvas.Name = "Canvas";
             this.tableLayoutPanel1.SetRowSpan(this.Canvas, 5);
-            this.Canvas.Size = new System.Drawing.Size(563, 767);
+            this.Canvas.Size = new System.Drawing.Size(726, 767);
             this.Canvas.TabIndex = 0;
             this.Canvas.TabStop = false;
             this.Canvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnCanvasClick);
@@ -188,7 +203,7 @@
             // LoadImageButton
             // 
             this.LoadImageButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.LoadImageButton.Location = new System.Drawing.Point(828, 3);
+            this.LoadImageButton.Location = new System.Drawing.Point(1098, 3);
             this.LoadImageButton.Name = "LoadImageButton";
             this.LoadImageButton.Size = new System.Drawing.Size(120, 34);
             this.LoadImageButton.TabIndex = 3;
@@ -200,7 +215,7 @@
             // 
             this.BrushShapeLabel.AutoSize = true;
             this.BrushShapeLabel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.BrushShapeLabel.Location = new System.Drawing.Point(384, 0);
+            this.BrushShapeLabel.Location = new System.Drawing.Point(492, 0);
             this.BrushShapeLabel.Name = "BrushShapeLabel";
             this.BrushShapeLabel.Size = new System.Drawing.Size(0, 40);
             this.BrushShapeLabel.TabIndex = 4;
@@ -222,7 +237,7 @@
             this.FiltersBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.FiltersBox.Name = "FiltersBox";
             this.FiltersBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.FiltersBox.Size = new System.Drawing.Size(375, 125);
+            this.FiltersBox.Size = new System.Drawing.Size(483, 125);
             this.FiltersBox.TabIndex = 2;
             this.FiltersBox.TabStop = false;
             this.FiltersBox.Text = "Filters";
@@ -235,7 +250,7 @@
             0,
             0,
             131072});
-            this.GammaNumericUpDown.Location = new System.Drawing.Point(311, 90);
+            this.GammaNumericUpDown.Location = new System.Drawing.Point(420, 87);
             this.GammaNumericUpDown.Maximum = new decimal(new int[] {
             80,
             0,
@@ -263,7 +278,7 @@
             0,
             0,
             0});
-            this.BrightnessNumericUpDown.Location = new System.Drawing.Point(311, 59);
+            this.BrightnessNumericUpDown.Location = new System.Drawing.Point(420, 56);
             this.BrightnessNumericUpDown.Maximum = new decimal(new int[] {
             255,
             0,
@@ -291,7 +306,7 @@
             0,
             0,
             0});
-            this.ContrastNumericUpDown.Location = new System.Drawing.Point(311, 27);
+            this.ContrastNumericUpDown.Location = new System.Drawing.Point(420, 24);
             this.ContrastNumericUpDown.Maximum = new decimal(new int[] {
             255,
             0,
@@ -336,7 +351,7 @@
             // ContrastButton
             // 
             this.ContrastButton.AutoSize = true;
-            this.ContrastButton.Location = new System.Drawing.Point(144, 27);
+            this.ContrastButton.Location = new System.Drawing.Point(207, 27);
             this.ContrastButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ContrastButton.Name = "ContrastButton";
             this.ContrastButton.Size = new System.Drawing.Size(85, 24);
@@ -349,7 +364,7 @@
             // GammaButton
             // 
             this.GammaButton.AutoSize = true;
-            this.GammaButton.Location = new System.Drawing.Point(144, 90);
+            this.GammaButton.Location = new System.Drawing.Point(207, 90);
             this.GammaButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.GammaButton.Name = "GammaButton";
             this.GammaButton.Size = new System.Drawing.Size(153, 24);
@@ -362,7 +377,7 @@
             // BrightnessButton
             // 
             this.BrightnessButton.AutoSize = true;
-            this.BrightnessButton.Location = new System.Drawing.Point(144, 59);
+            this.BrightnessButton.Location = new System.Drawing.Point(207, 59);
             this.BrightnessButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.BrightnessButton.Name = "BrightnessButton";
             this.BrightnessButton.Size = new System.Drawing.Size(98, 24);
@@ -389,10 +404,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1295, 838);
+            this.ClientSize = new System.Drawing.Size(1657, 838);
             this.Controls.Add(this.tableLayoutPanel1);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(1313, 885);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(1313, 885);
             this.Name = "GUI";
@@ -436,5 +450,6 @@
         private NumericUpDown BrightnessNumericUpDown;
         private NumericUpDown ContrastNumericUpDown;
         private TrackBar PaintbrushTrackBar;
+        private Button ImageBrushButton;
     }
 }

@@ -3,6 +3,7 @@
     public enum BrushShape
     {
         Paintbrush,
-        Polygon
+        Polygon,
+        WholeImage
     }
 }
