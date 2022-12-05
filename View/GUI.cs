@@ -70,7 +70,6 @@ namespace View
             NoneButton.Checked = true;
             _currentFilterMethod = FilterMethod.None;
             RemovePolygonButton.Enabled = false;
-            ApplyButton.Enabled = false;
             RChart.Enabled = false;
             GChart.Enabled = false;
             BChart.Enabled = false;
@@ -256,14 +255,6 @@ namespace View
 
             using var g = Graphics;
             g.DrawLine(new(color ?? _defaultColor), s.X, s.Y, e.X, e.Y);
-        }
-
-        public void DrawCircle(PointF center, int radius, Color? color = null)
-        {
-            var p = Offset(center);
-
-            using var g = Graphics;
-            g.DrawEllipse(new(color ?? _defaultColor), p.X - radius, p.Y - radius, radius * 2, radius * 2);
         }
 
         public void ClearArea()

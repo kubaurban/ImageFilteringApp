@@ -13,12 +13,12 @@ namespace Presenter
         private readonly int _pointRadius;
 
         #region Filters
-        private Lazy<NoneFilter> _noneFilter;
-        private Lazy<NegativeFilter> _negativeFilter;
-        private Lazy<BrightnessFilter> _brightnessFilter;
-        private Lazy<GammaCorrectionFilter> _gammaCorrectionFilter;
-        private Lazy<ContrastFilter> _contrastFilter;
-        private Lazy<BezierFilter> _bezierFilter;
+        private readonly NoneFilter _noneFilter;
+        private readonly NegativeFilter _negativeFilter;
+        private readonly BrightnessFilter _brightnessFilter;
+        private readonly GammaCorrectionFilter _gammaCorrectionFilter;
+        private readonly ContrastFilter _contrastFilter;
+        private readonly BezierFilter _bezierFilter;
         #endregion Filters
 
         private IView View { get; }
@@ -36,17 +36,17 @@ namespace Presenter
 
             _pointRadius = 10;
 
-            _noneFilter = new Lazy<NoneFilter>(() => new NoneFilter());
-            _negativeFilter = new Lazy<NegativeFilter>(() => new NegativeFilter());
-            _brightnessFilter = new Lazy<BrightnessFilter>(() => new BrightnessFilter(50));
-            _gammaCorrectionFilter = new Lazy<GammaCorrectionFilter>(() => new GammaCorrectionFilter(0.5));
-            _contrastFilter = new Lazy<ContrastFilter>(() => new ContrastFilter(100));
-            _bezierFilter = new Lazy<BezierFilter>(() => new BezierFilter());
+            _noneFilter = new NoneFilter();
+            _negativeFilter = new NegativeFilter();
+            _brightnessFilter = new BrightnessFilter(20);
+            _gammaCorrectionFilter = new GammaCorrectionFilter(0.05);
+            _contrastFilter = new ContrastFilter(10);
+            _bezierFilter = new BezierFilter();
 
             View = view;
 
             Brush = new PaintBrush(100);
-            Filter = new NoneFilter();
+            Filter = _noneFilter;
             View.SetBezierPoints(BezierFilter.DefaultBezierPointsArgs, BezierFilter.DefaultBezierPointsValues);
 
             InitViewHandlers();
@@ -64,29 +64,18 @@ namespace Presenter
             View.RemovePolygonBrushClicked += HandleRemovePolygonBrushClicked;
             View.ApplyPolygonFilter += HandleApplyPolygonFilter;
 
+            View.ContrastValueChanged += HandleContrastValueChanged;
+            View.BrightnessValueChanged += HandleBrightnessValueChanged;
+            View.GammaCorrectionValueChanged += HandleGammaCorrectionValueChanged;
+
             View.NoneFilterChecked += HandleNoneFilterChecked;
             View.NegativeFilterChecked += HandleNegativeFilterChecked;
             View.BrightnessFilterChecked += HandleBrightnessFilterChecked;
             View.GammaCorrectionFilterChecked += HandleGammaCorrectionFilterChecked;
-            View.ContrastFilterChecked += HandlenContrastFilterChecked;
+            View.ContrastFilterChecked += HandleContrastFilterChecked;
             View.BezierFilterChecked += HandleBezierFilterChecked;
 
             View.BezierPointMoved += HandleBezierPointMoved;
-        }
-
-        private void HandleApplyPolygonFilter(object? sender, EventArgs e)
-        {
-            DrawFilteredImage();
-            LoadedImage!.Untouch();
-
-            var prev = Brush.BrushPoints.Last();
-            foreach (var p in Brush.BrushPoints)
-            {
-                View.DrawVertex(p);
-                View.DrawLine(prev, p);
-                prev = p;
-            }
-            View.RefreshArea();
         }
 
         #region Handlers
@@ -117,6 +106,27 @@ namespace Presenter
             RedrawImage();
             View.RefreshArea();
         }
+
+        private void HandleApplyPolygonFilter(object? sender, EventArgs e)
+        {
+            DrawFilteredImage();
+            LoadedImage!.Untouch();
+
+            var prev = Brush.BrushPoints.Last();
+            foreach (var p in Brush.BrushPoints)
+            {
+                View.DrawVertex(p);
+                View.DrawLine(prev, p);
+                prev = p;
+            }
+            View.RefreshArea();
+        }
+
+        private void HandleGammaCorrectionValueChanged(object? sender, decimal e) => _gammaCorrectionFilter.Gamma = (double)e;
+
+        private void HandleBrightnessValueChanged(object? sender, decimal e) => _brightnessFilter.Modifier = (int)e;
+
+        private void HandleContrastValueChanged(object? sender, decimal e) => _contrastFilter.Contrast = (int)e;
 
         private void HandleBezierPointMoved(object? sender, (int idx, Point newPoint) e)
         {
@@ -199,19 +209,19 @@ namespace Presenter
             ComputeHistograms();
         }
 
-        private void HandleNoneFilterChecked(object? sender, EventArgs e) => Filter = _noneFilter.Value;
+        private void HandleNoneFilterChecked(object? sender, EventArgs e) => Filter = _noneFilter;
 
-        private void HandleNegativeFilterChecked(object? sender, EventArgs e) => Filter = _negativeFilter.Value;
+        private void HandleNegativeFilterChecked(object? sender, EventArgs e) => Filter = _negativeFilter;
 
-        private void HandleBrightnessFilterChecked(object? sender, EventArgs e) => Filter = _brightnessFilter.Value;
+        private void HandleBrightnessFilterChecked(object? sender, EventArgs e) => Filter = _brightnessFilter;
 
-        private void HandleGammaCorrectionFilterChecked(object? sender, EventArgs e) => Filter = _gammaCorrectionFilter.Value;
+        private void HandleGammaCorrectionFilterChecked(object? sender, EventArgs e) => Filter = _gammaCorrectionFilter;
 
-        private void HandlenContrastFilterChecked(object? sender, EventArgs e) => Filter = _contrastFilter.Value;
+        private void HandleContrastFilterChecked(object? sender, EventArgs e) => Filter = _contrastFilter;
 
         private void HandleBezierFilterChecked(object? sender, EventArgs e)
         {
-            var bezierFilter = _bezierFilter.Value;
+            var bezierFilter = _bezierFilter;
             Filter = bezierFilter;
             View.SetBezierCurve(bezierFilter.BezierArgs, bezierFilter.BezierValues);
         }

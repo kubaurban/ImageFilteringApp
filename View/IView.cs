@@ -31,7 +31,6 @@ namespace View
         void SetPixel(int x, int y, Color color);
         void DrawVertex(PointF center, Color? color = null);
         void DrawLine(PointF start, PointF end, Color? color = null);
-        void DrawCircle(PointF center, int radius, Color? color = null);
         void ClearArea();
         void RefreshArea();
         void LockDrawArea();

@@ -117,6 +117,7 @@
             // 
             // ApplyButton
             // 
+            this.ApplyButton.Enabled = false;
             this.ApplyButton.Location = new System.Drawing.Point(288, 25);
             this.ApplyButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ApplyButton.Name = "ApplyButton";
