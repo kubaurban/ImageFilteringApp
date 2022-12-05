@@ -13,6 +13,9 @@ namespace View
         event EventHandler ContrastFilterChecked;
         event EventHandler BezierFilterChecked;
         event EventHandler ApplyPolygonFilter;
+        event EventHandler<decimal> ContrastValueChanged;
+        event EventHandler<decimal> BrightnessValueChanged;
+        event EventHandler<decimal> GammaCorrectionValueChanged;
         event EventHandler<(int, Point)> BezierPointMoved; 
         event EventHandler<string> LoadedFilenameChanged;
         event MouseEventHandler CanvasClicked;

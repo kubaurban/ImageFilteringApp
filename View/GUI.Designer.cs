@@ -39,6 +39,9 @@
             this.LoadImageButton = new System.Windows.Forms.Button();
             this.BrushShapeLabel = new System.Windows.Forms.Label();
             this.FiltersBox = new System.Windows.Forms.GroupBox();
+            this.GammaNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.BrightnessNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.ContrastNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.NoneButton = new System.Windows.Forms.RadioButton();
             this.BezierButton = new System.Windows.Forms.RadioButton();
             this.ContrastButton = new System.Windows.Forms.RadioButton();
@@ -49,6 +52,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
             this.BrushShapesBox.SuspendLayout();
             this.FiltersBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GammaNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BrightnessNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ContrastNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -176,6 +182,9 @@
             // 
             // FiltersBox
             // 
+            this.FiltersBox.Controls.Add(this.GammaNumericUpDown);
+            this.FiltersBox.Controls.Add(this.BrightnessNumericUpDown);
+            this.FiltersBox.Controls.Add(this.ContrastNumericUpDown);
             this.FiltersBox.Controls.Add(this.NoneButton);
             this.FiltersBox.Controls.Add(this.BezierButton);
             this.FiltersBox.Controls.Add(this.ContrastButton);
@@ -192,10 +201,90 @@
             this.FiltersBox.TabStop = false;
             this.FiltersBox.Text = "Filters";
             // 
+            // GammaNumericUpDown
+            // 
+            this.GammaNumericUpDown.DecimalPlaces = 2;
+            this.GammaNumericUpDown.Increment = new decimal(new int[] {
+            25,
+            0,
+            0,
+            131072});
+            this.GammaNumericUpDown.Location = new System.Drawing.Point(311, 90);
+            this.GammaNumericUpDown.Maximum = new decimal(new int[] {
+            80,
+            0,
+            0,
+            65536});
+            this.GammaNumericUpDown.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.GammaNumericUpDown.Name = "GammaNumericUpDown";
+            this.GammaNumericUpDown.Size = new System.Drawing.Size(57, 27);
+            this.GammaNumericUpDown.TabIndex = 8;
+            this.GammaNumericUpDown.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.GammaNumericUpDown.ValueChanged += new System.EventHandler(this.OnGammaNumericUpDownValueChanged);
+            // 
+            // BrightnessNumericUpDown
+            // 
+            this.BrightnessNumericUpDown.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.BrightnessNumericUpDown.Location = new System.Drawing.Point(311, 59);
+            this.BrightnessNumericUpDown.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.BrightnessNumericUpDown.Minimum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            -2147483648});
+            this.BrightnessNumericUpDown.Name = "BrightnessNumericUpDown";
+            this.BrightnessNumericUpDown.Size = new System.Drawing.Size(57, 27);
+            this.BrightnessNumericUpDown.TabIndex = 7;
+            this.BrightnessNumericUpDown.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.BrightnessNumericUpDown.ValueChanged += new System.EventHandler(this.OnBrightnessNumericUpDownValueChanged);
+            // 
+            // ContrastNumericUpDown
+            // 
+            this.ContrastNumericUpDown.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.ContrastNumericUpDown.Location = new System.Drawing.Point(311, 27);
+            this.ContrastNumericUpDown.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.ContrastNumericUpDown.Name = "ContrastNumericUpDown";
+            this.ContrastNumericUpDown.Size = new System.Drawing.Size(57, 27);
+            this.ContrastNumericUpDown.TabIndex = 6;
+            this.ContrastNumericUpDown.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.ContrastNumericUpDown.ValueChanged += new System.EventHandler(this.OnContrastNumericUpDownValueChanged);
+            // 
             // NoneButton
             // 
             this.NoneButton.AutoSize = true;
-            this.NoneButton.Location = new System.Drawing.Point(259, 28);
+            this.NoneButton.Location = new System.Drawing.Point(11, 27);
             this.NoneButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.NoneButton.Name = "NoneButton";
             this.NoneButton.Size = new System.Drawing.Size(66, 24);
@@ -208,7 +297,7 @@
             // BezierButton
             // 
             this.BezierButton.AutoSize = true;
-            this.BezierButton.Location = new System.Drawing.Point(259, 91);
+            this.BezierButton.Location = new System.Drawing.Point(11, 90);
             this.BezierButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.BezierButton.Name = "BezierButton";
             this.BezierButton.Size = new System.Drawing.Size(110, 24);
@@ -221,7 +310,7 @@
             // ContrastButton
             // 
             this.ContrastButton.AutoSize = true;
-            this.ContrastButton.Location = new System.Drawing.Point(6, 28);
+            this.ContrastButton.Location = new System.Drawing.Point(144, 27);
             this.ContrastButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ContrastButton.Name = "ContrastButton";
             this.ContrastButton.Size = new System.Drawing.Size(85, 24);
@@ -234,7 +323,7 @@
             // GammaButton
             // 
             this.GammaButton.AutoSize = true;
-            this.GammaButton.Location = new System.Drawing.Point(6, 91);
+            this.GammaButton.Location = new System.Drawing.Point(144, 90);
             this.GammaButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.GammaButton.Name = "GammaButton";
             this.GammaButton.Size = new System.Drawing.Size(153, 24);
@@ -247,7 +336,7 @@
             // BrightnessButton
             // 
             this.BrightnessButton.AutoSize = true;
-            this.BrightnessButton.Location = new System.Drawing.Point(6, 60);
+            this.BrightnessButton.Location = new System.Drawing.Point(144, 59);
             this.BrightnessButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.BrightnessButton.Name = "BrightnessButton";
             this.BrightnessButton.Size = new System.Drawing.Size(98, 24);
@@ -260,7 +349,7 @@
             // NegativeButton
             // 
             this.NegativeButton.AutoSize = true;
-            this.NegativeButton.Location = new System.Drawing.Point(259, 60);
+            this.NegativeButton.Location = new System.Drawing.Point(11, 59);
             this.NegativeButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.NegativeButton.Name = "NegativeButton";
             this.NegativeButton.Size = new System.Drawing.Size(90, 24);
@@ -290,6 +379,9 @@
             this.BrushShapesBox.ResumeLayout(false);
             this.FiltersBox.ResumeLayout(false);
             this.FiltersBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GammaNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BrightnessNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ContrastNumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -312,5 +404,8 @@
         private Label BrushShapeLabel;
         private RadioButton NoneButton;
         private Button ApplyButton;
+        private NumericUpDown GammaNumericUpDown;
+        private NumericUpDown BrightnessNumericUpDown;
+        private NumericUpDown ContrastNumericUpDown;
     }
 }

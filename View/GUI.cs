@@ -24,6 +24,9 @@ namespace View
         public event EventHandler ContrastFilterChecked;
         public event EventHandler BezierFilterChecked;
         public event EventHandler ApplyPolygonFilter;
+        public event EventHandler<decimal> ContrastValueChanged;
+        public event EventHandler<decimal> BrightnessValueChanged;
+        public event EventHandler<decimal> GammaCorrectionValueChanged;
         public event EventHandler<(int, Point)> BezierPointMoved;
         public event MouseEventHandler CanvasClicked;
         public event MouseEventHandler CanvasMouseMoved;
@@ -369,6 +372,12 @@ namespace View
         {
             ApplyPolygonFilter?.Invoke(sender, e);
         }
+
+        private void OnContrastNumericUpDownValueChanged(object sender, EventArgs e) => ContrastValueChanged?.Invoke(sender, ContrastNumericUpDown.Value);
+
+        private void OnBrightnessNumericUpDownValueChanged(object sender, EventArgs e) => BrightnessValueChanged?.Invoke(sender, BrightnessNumericUpDown.Value);
+
+        private void OnGammaNumericUpDownValueChanged(object sender, EventArgs e) => GammaCorrectionValueChanged?.Invoke(sender, GammaNumericUpDown.Value);
 
         private void OnCanvasClick(object sender, MouseEventArgs e)
         {
